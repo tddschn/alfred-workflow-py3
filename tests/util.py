@@ -238,6 +238,8 @@ def dump_env():
 def create_info_plist(source=INFO_PLIST_TEST, dest=INFO_PLIST_PATH):
     """Symlink ``source`` to ``dest``."""
     if os.path.exists(source) and not os.path.exists(dest):
+        assert os.path.exists(source), f'destination {source} should exist'
+        assert not os.path.exists(dest), f'destination {dest} should not exist'
         os.symlink(source, dest)
 
 
