@@ -540,8 +540,8 @@ class SerializerManager(object):
 
         """
         # Basic validation
-        assert hasattr(serializer, "load")
-        assert hasattr(serializer, "dump")
+        serializer.load
+        serializer.dump
 
         self._serializers[name] = serializer
 
