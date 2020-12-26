@@ -19,6 +19,7 @@ import os
 import shutil
 import subprocess
 import tempfile
+from pathlib import Path
 
 INFO_PLIST_TEST = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                                'data/info.plist.alfred2')
@@ -237,10 +238,10 @@ def dump_env():
 
 def create_info_plist(source=INFO_PLIST_TEST, dest=INFO_PLIST_PATH):
     """Symlink ``source`` to ``dest``."""
-    if os.path.exists(source) and not os.path.exists(dest):
-        assert os.path.exists(source), f'destination {source} should exist'
-        assert not os.path.exists(dest), f'destination {dest} should not exist'
-        os.symlink(source, dest)
+    source, dest = Path(source), Path(dest)
+    if source.exists() and not dest.exists():
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        source.symlink_to(dest)
 
 
 def delete_info_plist(path=INFO_PLIST_PATH):
