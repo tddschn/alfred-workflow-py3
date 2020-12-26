@@ -7,18 +7,16 @@
 """Unit tests for Keychain API."""
 
 
-
 import pytest
 
-from workflow.workflow import PasswordNotFound, KeychainError
+from workflow.workflow import KeychainError, PasswordNotFound
 
 from .conftest import BUNDLE_ID
 
-
-ACCOUNT = 'this-is-my-test-account'
-PASSWORD = 'hunter2'
-PASSWORD2 = 'hunter2ing'
-PASSWORD3 = 'hünter\\“2”'
+ACCOUNT = "this-is-my-test-account"
+PASSWORD = "hunter2"
+PASSWORD2 = "hunter2ing"
+PASSWORD3 = "hünter\\“2”"
 
 
 def test_keychain(wf):
@@ -52,4 +50,4 @@ def test_keychain(wf):
 
     # bad call to _call_security
     with pytest.raises(KeychainError):
-        wf._call_security('pants', BUNDLE_ID, ACCOUNT)
+        wf._call_security("pants", BUNDLE_ID, ACCOUNT)

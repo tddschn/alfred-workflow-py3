@@ -11,14 +11,13 @@
 """Benchmark the loading speed of Alfred-Workflow."""
 
 
-
 import os
 import subprocess
 import sys
 import time
 
 mydir = os.path.abspath(os.path.dirname(__file__))
-benchdir = os.path.join(mydir, 'benchmarks')
+benchdir = os.path.join(mydir, "benchmarks")
 pydir = os.path.dirname(mydir)
 
 
@@ -55,8 +54,9 @@ class Table(object):
             row (iterable): Items for the row.
         """
         if self.width and len(row) != self.width:
-            raise ValueError('Rows must have {} elements, not {}'.format(
-                             self.width, len(row)))
+            raise ValueError(
+                "Rows must have {} elements, not {}".format(self.width, len(row))
+            )
 
         row = [title] + list(row)
         self.rows.append(row)
@@ -102,7 +102,7 @@ class Table(object):
 
         for cell in data:
             if isinstance(cell, str):
-                cell = cell.encode('utf-8')
+                cell = cell.encode("utf-8")
             elif isinstance(cell, str):
                 pass
             else:
@@ -134,24 +134,22 @@ class Table(object):
             is_title, cells = row[0], row[1:]
             newrow = [is_title]
             for i, s in enumerate(cells):
-                f = b'{{:{}s}}'.format(widths[i])
+                f = b"{{:{}s}}".format(widths[i])
                 newrow.append(f.format(s))
             padded.append(newrow)
 
-        hr = [b' '] + [(b'-' * (w+2)) for w in widths] + [b'']
-        hr = b'+'.join(hr)
+        hr = [b" "] + [(b"-" * (w + 2)) for w in widths] + [b""]
+        hr = b"+".join(hr)
         text = [hr]
         for row in padded:
             is_title, cells = row[0], row[1:]
-            text.append(b''.join([b' | ',
-                                  b' | '.join(cells),
-                                  b' | ']))
+            text.append(b"".join([b" | ", b" | ".join(cells), b" | "]))
             if is_title:
                 text.append(hr)
 
         text.append(hr)
 
-        return b'\n'.join(text)
+        return b"\n".join(text)
 
 
 class Benchmark(object):
@@ -182,11 +180,7 @@ class Benchmark(object):
         self.errors = []
         # Add grandparent directory to PYTHONPATH, so scripts can see
         # workflow package
-        env = {
-            'HOME': os.getenv('HOME'),
-            'PATH': '/bin:/usr/bin',
-            'PYTHONPATH': pydir,
-        }
+        env = {"HOME": os.getenv("HOME"), "PATH": "/bin:/usr/bin", "PYTHONPATH": pydir}
         # env.update(os.environ)
         # env['PYTHONPATH'] = ':'.join([pydir,
         #                              env.get('PYTHONPATH', '')]).strip(':')
@@ -196,26 +190,29 @@ class Benchmark(object):
         wrote = False
         for i in range(times):
             if i % 5 == 0:
-                sys.stdout.write('.')
+                sys.stdout.write(".")
                 sys.stdout.flush()
                 wrote = True
 
             start = time.time()
             try:
-                with open(os.devnull, 'w') as devnull:
-                    subprocess.check_call(self.cmd, cwd=self.cwd, env=env,
-                                          stdout=devnull,
-                                          stderr=subprocess.STDOUT,
-                                          )
+                with open(os.devnull, "w") as devnull:
+                    subprocess.check_call(
+                        self.cmd,
+                        cwd=self.cwd,
+                        env=env,
+                        stdout=devnull,
+                        stderr=subprocess.STDOUT,
+                    )
             except subprocess.CalledProcessError as err:
-                log('[ERROR] cmd=%r, err=%r', self.cmd, err)
+                log("[ERROR] cmd=%r, err=%r", self.cmd, err)
                 self.errors.append(err)
             else:
                 elapsed = time.time() - start
                 self.results.append(elapsed)
 
         if wrote:
-            print('')
+            print("")
 
 
 def find_benchmarks(rootdir):
@@ -228,7 +225,7 @@ def find_benchmarks(rootdir):
         if not os.path.isdir(p):
             continue
 
-        sh = os.path.join(p, 'run.sh')
+        sh = os.path.join(p, "run.sh")
         if os.path.exists(sh):
             benchmarks.append(p)
 
@@ -241,16 +238,16 @@ def main():
     benchmarks = []
     dirs = find_benchmarks(benchdir)
 
-    log('%d benchmark(s).', len(dirs))
+    log("%d benchmark(s).", len(dirs))
 
     for p in dirs:
-        b = Benchmark(os.path.basename(p), ['/bin/bash', 'run.sh'], p)
+        b = Benchmark(os.path.basename(p), ["/bin/bash", "run.sh"], p)
         benchmarks.append(b)
         errors = b.run(times)
         if errors:
-            log('%d errors', len(errors))
+            log("%d errors", len(errors))
 
-    t = Table(['Name', 'Runs', 'Errors', 'Total', 'Average'])
+    t = Table(["Name", "Runs", "Errors", "Total", "Average"])
     for b in benchmarks:
         errn = len(b.errors)
         runn = times - errn
@@ -258,10 +255,12 @@ def main():
         av = 0.0
         if runn > 0:
             av = total / runn
-        t.add_row([b.name, times, errn, '{:0.1f}s'.format(total),
-                  '{:0.4f}s'.format(av)])
+        t.add_row(
+            [b.name, times, errn, "{:0.1f}s".format(total), "{:0.4f}s".format(av)]
+        )
 
     print(t)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

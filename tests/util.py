@@ -11,33 +11,32 @@
 """Stuff used in multiple tests."""
 
 
-
-from six.moves import cStringIO as StringIO
-from six.moves import getcwd
-import sys
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
+
+from six.moves import cStringIO as StringIO
 
 root = Path(__file__).absolute().parent
 cwd = Path.cwd()
 
-INFO_PLIST_TEST = root / 'data/info.plist.alfred2'
+INFO_PLIST_TEST = root / "data/info.plist.alfred2"
 
-INFO_PLIST_TEST3 = root / 'data/info.plist.alfred3'
+INFO_PLIST_TEST3 = root / "data/info.plist.alfred3"
 
 
-INFO_PLIST_PATH = cwd / 'info.plist'
+INFO_PLIST_PATH = cwd / "info.plist"
 
-VERSION_PATH = cwd / 'version'
+VERSION_PATH = cwd / "version"
 
 DEFAULT_SETTINGS = {
-    'key1': 'value1',
-    'key2': 'hübner',
-    'mutable1': ['mutable', 'object'],
-    'mutable2': {'mutable': ['nested', 'object']},
+    "key1": "value1",
+    "key2": "hübner",
+    "mutable1": ["mutable", "object"],
+    "mutable2": {"mutable": ["nested", "object"]},
 }
 
 
@@ -58,7 +57,7 @@ class MockCall(object):
 
     def _check_output(self, cmd, **kwargs):
         self.cmd = cmd
-        return b'fakereturn'
+        return b"fakereturn"
 
     def __enter__(self):
         """Monkey-patch subprocess.check_output."""
@@ -101,7 +100,7 @@ class WorkflowMock(object):
         self.cmd = ()
         self.args = []
         self.kwargs = {}
-        self.stderr = ''
+        self.stderr = ""
 
     def _exit(self, status=0):
         return
@@ -158,10 +157,9 @@ class VersionFile(object):
 
     def __enter__(self):
         """Create version file."""
-        with open(self.path, 'w') as fp:
+        with open(self.path, "w") as fp:
             fp.write(self.version)
-        print('version {0} in {1}'.format(self.version, self.path),
-              file=sys.stderr)
+        print("version {0} in {1}".format(self.version, self.path), file=sys.stderr)
 
     def __exit__(self, *args):
         """Remove version file."""
@@ -186,19 +184,19 @@ class FakePrograms(object):
         self.tempdir = tempfile.mkdtemp()
         for name, retcode in list(self.programs.items()):
             path = os.path.join(self.tempdir, name)
-            with open(path, 'w') as fp:
+            with open(path, "w") as fp:
                 print(name, retcode)
                 fp.write("#!/bin/bash\n\nexit {0}\n".format(retcode))
             os.chmod(path, 700)
 
         # Add new programs to front of PATH
-        self.orig_path = os.getenv('PATH')
-        os.environ['PATH'] = self.tempdir + ':' + self.orig_path
+        self.orig_path = os.getenv("PATH")
+        os.environ["PATH"] = self.tempdir + ":" + self.orig_path
         return self
 
     def __exit__(self, *args):
         """Remove program(s) from PATH."""
-        os.environ['PATH'] = self.orig_path
+        os.environ["PATH"] = self.orig_path
         try:
             shutil.rmtree(self.tempdir)
         except OSError:
@@ -231,16 +229,16 @@ class InfoPlist(object):
 def dump_env():
     """Print `os.environ` to STDOUT."""
     for k, v in list(os.environ.items()):
-        if k.startswith('alfred_'):
-            print('env: %s=%s' % (k, v))
+        if k.startswith("alfred_"):
+            print("env: %s=%s" % (k, v))
 
 
-def create_info_plist(source: Path=INFO_PLIST_TEST, dest: Path=INFO_PLIST_PATH):
+def create_info_plist(source: Path = INFO_PLIST_TEST, dest: Path = INFO_PLIST_PATH):
     """Symlink ``source`` to ``dest``."""
     if source.exists() and not dest.exists():
         dest.parent.mkdir(parents=True, exist_ok=True)
-        assert source.exists(), f'{source} should exist'
-        assert not dest.exists(), f'{dest} should not exist'
+        assert source.exists(), f"{source} should exist"
+        assert not dest.exists(), f"{dest} should not exist"
         # source.symlink_to(dest)
         os.symlink(source, dest)
 
@@ -248,5 +246,5 @@ def create_info_plist(source: Path=INFO_PLIST_TEST, dest: Path=INFO_PLIST_PATH):
 def delete_info_plist(path=INFO_PLIST_PATH):
     """Delete ``path`` if it exists."""
     if os.path.exists(path) and os.path.islink(path):
-        assert os.path.exists(path), f'destination {path} should exist'
+        assert os.path.exists(path), f"destination {path} should exist"
         os.unlink(path)

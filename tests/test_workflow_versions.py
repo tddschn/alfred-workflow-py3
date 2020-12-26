@@ -7,48 +7,44 @@
 """Unit tests for workflow version determination."""
 
 
-
 import pytest
 
 from workflow.update import Version
 from workflow.workflow import Workflow
 from workflow.workflow3 import Workflow3
 
-from .conftest import env, WORKFLOW_VERSION
+from .conftest import WORKFLOW_VERSION, env
 from .util import VersionFile
 
 
 def test_info_plist(infopl):
     """Version from info.plist."""
     wf = Workflow3()
-    assert wf.version == Version('1.1.1'), "unexpected version"
+    assert wf.version == Version("1.1.1"), "unexpected version"
 
 
 def test_envvar(infopl):
     """Version from environment variable."""
-    v = '1.1.2'
+    v = "1.1.2"
     with env(alfred_workflow_version=v):
         wf = Workflow3()
         assert wf.version == Version(v), "unexpected version"
         # environment variables have priority
-        wf = Workflow3(update_settings={'version': '1.1.3'})
+        wf = Workflow3(update_settings={"version": "1.1.3"})
         assert wf.version == Version(v), "unexpected version"
 
 
 def test_update_settings(infopl):
     """Version from update_settings."""
-    v = '1.1.3'
-    wf = Workflow3(update_settings={'version': v})
+    v = "1.1.3"
+    wf = Workflow3(update_settings={"version": v})
     assert wf.version == Version(v), "unexpected version"
 
 
 def test_versions_from_settings(alfred4, infopl2):
     """Workflow: version from `update_settings`"""
-    vstr = '1.9.7'
-    d = {
-        'github_slug': 'deanishe/alfred-workflow',
-        'version': vstr,
-    }
+    vstr = "1.9.7"
+    d = {"github_slug": "deanishe/alfred-workflow", "version": vstr}
     with env(alfred_workflow_version=None):
         wf = Workflow(update_settings=d)
         assert str(wf.version) == vstr
@@ -58,7 +54,7 @@ def test_versions_from_settings(alfred4, infopl2):
 
 def test_versions_from_file(alfred4, infopl2):
     """Workflow: version from `version` file"""
-    vstr = '1.9.7'
+    vstr = "1.9.7"
     with env(alfred_workflow_version=None):
         with VersionFile(vstr):
             wf = Workflow()
@@ -89,7 +85,7 @@ def test_first_run_no_version(alfred4, infopl2):
 
 def test_first_run_with_version(alfred4, infopl):
     """Workflow: first_run"""
-    vstr = '1.9.7'
+    vstr = "1.9.7"
     with env(alfred_workflow_version=vstr):
         wf = Workflow()
         assert wf.first_run is True
@@ -98,8 +94,8 @@ def test_first_run_with_version(alfred4, infopl):
 
 def test_first_run_with_previous_run(alfred4, infopl):
     """Workflow: first_run with previous run"""
-    vstr = '1.9.7'
-    last_vstr = '1.9.6'
+    vstr = "1.9.7"
+    last_vstr = "1.9.6"
     with env(alfred_workflow_version=vstr):
         wf = Workflow()
         wf.set_last_version(last_vstr)
@@ -115,7 +111,7 @@ def test_last_version_empty(wf):
 
 def test_last_version_on(alfred4, infopl):
     """Workflow: last_version_run not empty"""
-    vstr = '1.9.7'
+    vstr = "1.9.7"
 
     with env(alfred_workflow_version=vstr):
         wf = Workflow()
@@ -149,7 +145,7 @@ def test_last_version_no_version(alfred4, infopl2):
 
 def test_last_version_explicit_version(alfred4, infopl):
     """Workflow: last_version explicit version"""
-    vstr = '1.9.6'
+    vstr = "1.9.6"
     wf = Workflow()
     assert wf.set_last_version(vstr) is True
     assert wf.last_version_run == Version(vstr)
@@ -158,7 +154,7 @@ def test_last_version_explicit_version(alfred4, infopl):
 
 def test_last_version_auto_version(alfred4, infopl):
     """Workflow: last_version auto version"""
-    vstr = '1.9.7'
+    vstr = "1.9.7"
     with env(alfred_workflow_version=vstr):
         wf = Workflow()
         assert wf.set_last_version() is True
@@ -168,7 +164,7 @@ def test_last_version_auto_version(alfred4, infopl):
 
 def test_last_version_set_after_run(alfred4, infopl):
     """Workflow: last_version set after `run()`"""
-    vstr = '1.9.7'
+    vstr = "1.9.7"
 
     def cb(wf):
         return
@@ -185,4 +181,4 @@ def test_last_version_set_after_run(alfred4, infopl):
 
 def test_alfred_version(wf):
     """Workflow: alfred_version correct."""
-    assert wf.alfred_version == Version('4.0')
+    assert wf.alfred_version == Version("4.0")
