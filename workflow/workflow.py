@@ -1974,12 +1974,6 @@ class Workflow(object):
             return (0, None)
 
         # item starts with query
-        print(
-            match_on & MATCH_STARTSWITH,
-            value.lower().startswith(query),
-            value.lower(),
-            query,
-        )
         if match_on & MATCH_STARTSWITH and value.lower().startswith(query):
             score = 100.0 - (len(value) / len(query))
 
