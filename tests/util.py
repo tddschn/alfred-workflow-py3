@@ -246,4 +246,5 @@ def create_info_plist(source=INFO_PLIST_TEST, dest=INFO_PLIST_PATH):
 def delete_info_plist(path=INFO_PLIST_PATH):
     """Delete ``path`` if it exists."""
     if os.path.exists(path) and os.path.islink(path):
+        assert os.path.exists(path), f'destination {path} should exist'
         os.unlink(path)
