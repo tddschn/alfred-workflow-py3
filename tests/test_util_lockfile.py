@@ -11,36 +11,34 @@
 """Test LockFile functionality."""
 
 
-
-from collections import namedtuple
-from multiprocessing import Pool
 import os
 import shutil
 import sys
 import tempfile
 import traceback
+from collections import namedtuple
+from multiprocessing import Pool
 
 import pytest
 
 from workflow.util import AcquisitionError, LockFile
 from workflow.workflow import Settings
 
+Paths = namedtuple("Paths", "testfile lockfile")
 
-Paths = namedtuple('Paths', 'testfile lockfile')
 
-
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def paths(request):
     """Test and lock file paths."""
     tempdir = tempfile.mkdtemp()
-    testfile = os.path.join(tempdir, 'myfile.txt')
+    testfile = os.path.join(tempdir, "myfile.txt")
 
     def rm():
         shutil.rmtree(tempdir)
 
     request.addfinalizer(rm)
 
-    return Paths(testfile, testfile + '.lock')
+    return Paths(testfile, testfile + ".lock")
 
 
 def test_lockfile_created(paths):
@@ -76,11 +74,11 @@ def test_sequential_access(paths):
 def _write_test_data(args):
     """Write 10 lines to the test file."""
     paths, data = args
-    for i in range(10):
+    for _i in range(10):
         with LockFile(paths.testfile, 0.5) as lock:
             assert lock.locked
-            with open(paths.testfile, 'a') as fp:
-                fp.write(data + '\n')
+            with open(paths.testfile, "a") as fp:
+                fp.write(data + "\n")
 
 
 def test_concurrent_access(paths):
@@ -95,8 +93,7 @@ def test_concurrent_access(paths):
     lock = LockFile(paths.testfile, 0.5)
 
     pool = Pool(5)
-    pool.map(_write_test_data,
-             [(paths, str(i) * 20) for i in range(1, 6)])
+    pool.map(_write_test_data, [(paths, str(i) * 20) for i in range(1, 6)])
 
     assert not lock.locked
     assert not os.path.exists(paths.lockfile)
@@ -114,11 +111,12 @@ def _write_settings(args):
     try:
         s = Settings(paths.testfile)
         s[key] = value
-        print('Settings[{0}] = {1}'.format(key, value))
+        print("Settings[{0}] = {1}".format(key, value))
     except Exception as err:
-        print('error opening settings (%s): %s' % (key,
-              traceback.format_exc()),
-              file=sys.stderr)
+        print(
+            "error opening settings (%s): %s" % (key, traceback.format_exc()),
+            file=sys.stderr,
+        )
         return err
 
 
@@ -127,12 +125,13 @@ def test_concurrent_settings(paths):
     assert not os.path.exists(paths.testfile)
     assert not os.path.exists(paths.lockfile)
 
-    defaults = {'foo': 'bar'}
+    defaults = {"foo": "bar"}
     # initialise file
     Settings(paths.testfile, defaults)
 
-    data = [(paths, 'thread_{0}'.format(i), 'value_{0}'.format(i))
-            for i in range(1, 10)]
+    data = [
+        (paths, "thread_{0}".format(i), "value_{0}".format(i)) for i in range(1, 10)
+    ]
 
     pool = Pool(5)
     errs = pool.map(_write_settings, data)
@@ -146,9 +145,9 @@ def test_concurrent_settings(paths):
     # over each other, so there's no way to know
     # which one won and wrote its value.
     s = Settings(paths.testfile)
-    assert s['foo'] == 'bar'
+    assert s["foo"] == "bar"
     assert len(s) > 1
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     pytest.main([__file__])

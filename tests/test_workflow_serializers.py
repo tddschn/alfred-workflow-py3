@@ -11,35 +11,29 @@
 """Unit tests for serializer classes."""
 
 
-
 import os
-import sys
 
 import pytest
 
-from workflow.workflow import (
-    SerializerManager,
-    JSONSerializer,
-    PickleSerializer,
-    manager as default_manager,
-)
+from workflow.workflow import JSONSerializer, PickleSerializer, SerializerManager
+from workflow.workflow import manager as default_manager
 
 # default serializers
-SERIALIZERS = ('json', 'pickle')
+SERIALIZERS = ("json", "pickle")
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def manager():
     """Create a `SerializerManager` with the default config."""
     m = SerializerManager()
-    m.register('pickle', PickleSerializer)
-    m.register('json', JSONSerializer)
+    m.register("pickle", PickleSerializer)
+    m.register("json", JSONSerializer)
     yield m
 
 
 def is_serializer(obj):
     """Verify that ``obj`` implements serializer API."""
-    return hasattr(obj, 'load') and hasattr(obj, 'dump')
+    return hasattr(obj, "load") and hasattr(obj, "dump")
 
 
 def test_default_serializers():
@@ -52,19 +46,19 @@ def test_default_serializers():
 
 def test_serialization(tempdir, manager):
     """Dump/load data."""
-    data = {'arg1': 'value1', 'arg2': 'value2'}
+    data = {"arg1": "value1", "arg2": "value2"}
 
     for name in SERIALIZERS:
         serializer = manager.serializer(name)
-        path = os.path.join(tempdir, 'test.{0}'.format(name))
+        path = os.path.join(tempdir, "test.{0}".format(name))
         assert not os.path.exists(path)
 
-        with serializer.atomic_writer(path, 'w') as file_obj:
+        with serializer.atomic_writer(path, "w") as file_obj:
             serializer.dump(data, file_obj)
 
         assert os.path.exists(path)
 
-        with open(path, 'rb') as file_obj:
+        with open(path, "rb") as file_obj:
             data2 = serializer.load(file_obj)
 
         assert data == data2
@@ -104,13 +98,13 @@ def test_register_invalid(manager):
     """Register invalid serializer."""
     invalid1 = InvalidSerializer()
     invalid2 = InvalidSerializer()
-    setattr(invalid2, 'load', lambda x: x)
+    invalid2.load = lambda x: x
 
     with pytest.raises(AttributeError):
-        manager.register('bork', invalid1)
+        manager.register("bork", invalid1)
     with pytest.raises(AttributeError):
-        manager.register('bork', invalid2)
+        manager.register("bork", invalid2)
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     pytest.main([__file__])

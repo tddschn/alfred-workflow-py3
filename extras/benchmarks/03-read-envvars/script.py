@@ -12,8 +12,6 @@
 """
 
 
-
-
 import sys
 
 from workflow import Workflow
@@ -23,10 +21,10 @@ log = None
 
 def main(wf):
     """Do nothing."""
-    log.debug('datadir=%r', wf.datadir)
+    log.debug("datadir=%r", wf.datadir)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     wf = Workflow()
     log = wf.logger
     sys.exit(wf.run(main))

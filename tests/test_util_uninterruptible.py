@@ -11,7 +11,6 @@
 """Unit tests for ``uninterruptible`` decorator."""
 
 
-
 import os
 import signal
 
@@ -49,7 +48,7 @@ def fakewrite(target):
     target.finished = True
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def target():
     """Create a `Target`."""
     # restore default handlers
@@ -98,5 +97,5 @@ def test_old_signal_handler_restore(target):
     assert signal.getsignal(signal.SIGTERM) == target.handler
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     pytest.main([__file__])

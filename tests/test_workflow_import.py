@@ -7,7 +7,6 @@
 """Unit tests for sys.path manipulation."""
 
 
-
 import os
 import sys
 
@@ -15,8 +14,7 @@ import pytest
 
 from workflow.workflow import Workflow
 
-
-LIBS = [os.path.join(os.path.dirname(__file__), 'lib')]
+LIBS = [os.path.join(os.path.dirname(__file__), "lib")]
 
 
 def test_additional_libs(alfred4, infopl):
@@ -25,11 +23,12 @@ def test_additional_libs(alfred4, infopl):
     for path in LIBS:
         assert path in sys.path
 
-    assert sys.path[0:len(LIBS)] == LIBS
+    assert sys.path[0 : len(LIBS)] == LIBS
     import youcanimportme
+
     youcanimportme.noop()
     wf.reset()
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     pytest.main([__file__])

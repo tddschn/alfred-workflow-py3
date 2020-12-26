@@ -7,9 +7,8 @@
 """Unit tests for Workflow.run."""
 
 
-
-from io import StringIO
 import sys
+from io import StringIO
 
 import pytest
 
@@ -24,9 +23,9 @@ def test_run_fails(infopl):
 
     def cb(wf2):
         assert wf2 is wf
-        raise ValueError('Have an error')
+        raise ValueError("Have an error")
 
-    wf.help_url = 'http://www.deanishe.net/alfred-workflow/'
+    wf.help_url = "http://www.deanishe.net/alfred-workflow/"
     ret = wf.run(cb)
     assert ret == 1
 
@@ -48,7 +47,7 @@ def test_run_fails(infopl):
 
 def test_run_fails_with_xml_output(wf):
     """Run fails with XML output"""
-    error_text = 'Have an error'
+    error_text = "Have an error"
     stdout = sys.stdout
     buf = StringIO()
     sys.stdout = buf
@@ -65,12 +64,12 @@ def test_run_fails_with_xml_output(wf):
 
     assert ret == 1
     assert error_text in output
-    assert '<?xml' in output
+    assert "<?xml" in output
 
 
 def test_run_fails_with_plain_text_output(wf):
     """Run fails with plain text output"""
-    error_text = 'Have an error'
+    error_text = "Have an error"
     stdout = sys.stdout
     buf = StringIO()
     sys.stdout = buf
@@ -87,14 +86,14 @@ def test_run_fails_with_plain_text_output(wf):
 
     assert ret == 1
     assert error_text in output
-    assert '<?xml' not in output
+    assert "<?xml" not in output
 
 
 def test_run_fails_borked_settings(wf):
     """Run fails with borked settings.json"""
     # Create invalid settings.json file
-    with open(wf.settings_path, 'w') as fp:
-        fp.write('')
+    with open(wf.settings_path, "w") as fp:
+        fp.write("")
 
     def fake(wf):
         wf.settings
@@ -105,6 +104,7 @@ def test_run_fails_borked_settings(wf):
 
 def test_run_okay(wf):
     """Run okay"""
+
     def cb(wf2):
         assert wf2 is wf
 
@@ -112,5 +112,5 @@ def test_run_okay(wf):
     assert ret == 0
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     pytest.main([__file__])

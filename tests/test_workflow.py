@@ -11,11 +11,9 @@
 """Unit tests for :mod:`workflow.Workflow`."""
 
 
-
 import logging
 import os
 import sys
-
 from unicodedata import normalize
 
 import pytest
@@ -27,9 +25,9 @@ from .conftest import env
 
 def test_args(alfred4):
     """ARGV"""
-    args = ['arg1', 'arg2', 'füntíme']
+    args = ["arg1", "arg2", "füntíme"]
     oargs = sys.argv[:]
-    sys.argv = [oargs[0]] + [s.encode('utf-8') for s in args]
+    sys.argv = [oargs[0]] + [s.encode("utf-8") for s in args]
     wf = Workflow()
     try:
         assert wf.args == args
@@ -39,15 +37,16 @@ def test_args(alfred4):
 
 def test_arg_normalisation(alfred4):
     """ARGV normalisation"""
+
     def nfdme(s):
         """NFD-normalise string"""
-        return normalize('NFD', s)
+        return normalize("NFD", s)
 
-    args = [nfdme(s) for s in ['arg1', 'arg2', 'füntíme']]
+    args = [nfdme(s) for s in ["arg1", "arg2", "füntíme"]]
     oargs = sys.argv[:]
-    sys.argv = [oargs[0]] + [s.encode('utf-8') for s in args]
+    sys.argv = [oargs[0]] + [s.encode("utf-8") for s in args]
 
-    wf = Workflow(normalization='NFD')
+    wf = Workflow(normalization="NFD")
     try:
         assert wf.args == args
     finally:
@@ -60,10 +59,10 @@ def test_magic_args(alfred4):
     oargs = sys.argv[:]
 
     # delsettings
-    sys.argv = [oargs[0]] + [b'workflow:delsettings']
+    sys.argv = [oargs[0]] + [b"workflow:delsettings"]
     try:
-        wf = Workflow(default_settings={'arg1': 'value1'})
-        assert wf.settings['arg1'] == 'value1'
+        wf = Workflow(default_settings={"arg1": "value1"})
+        assert wf.settings["arg1"] == "value1"
         assert os.path.exists(wf.settings_path)
         with pytest.raises(SystemExit):
             wf.args
@@ -72,20 +71,20 @@ def test_magic_args(alfred4):
         sys.argv = oargs[:]
 
     # delcache
-    sys.argv = [oargs[0]] + [b'workflow:delcache']
+    sys.argv = [oargs[0]] + [b"workflow:delcache"]
 
     def somedata():
-        return {'arg1': 'value1'}
+        return {"arg1": "value1"}
 
     try:
         wf = Workflow()
-        cachepath = wf.cachefile('somedir')
+        cachepath = wf.cachefile("somedir")
         os.makedirs(cachepath)
-        wf.cached_data('test', somedata)
-        assert os.path.exists(wf.cachefile('test.pickle'))
+        wf.cached_data("test", somedata)
+        assert os.path.exists(wf.cachefile("test.pickle"))
         with pytest.raises(SystemExit):
             wf.args
-        assert not os.path.exists(wf.cachefile('test.pickle'))
+        assert not os.path.exists(wf.cachefile("test.pickle"))
     finally:
         sys.argv = oargs[:]
 
@@ -93,7 +92,7 @@ def test_magic_args(alfred4):
 def test_logger(wf):
     """Logger"""
     assert isinstance(wf.logger, logging.Logger)
-    logger = logging.Logger('')
+    logger = logging.Logger("")
     wf.logger = logger
     assert wf.logger == logger
 
@@ -101,24 +100,21 @@ def test_logger(wf):
 def test_icons():
     """Icons"""
     import workflow
+
     for name in dir(workflow):
-        if name.startswith('ICON_'):
+        if name.startswith("ICON_"):
             path = getattr(workflow, name)
             print((name, path))
             assert os.path.exists(path)
 
 
-@pytest.mark.parametrize('state,expected', [
-        ('', False),
-        ('0', False),
-        ('1', True),
-    ])
+@pytest.mark.parametrize("state,expected", [("", False), ("0", False), ("1", True)])
 def test_debugging(alfred4, state, expected):
     """Debugging"""
-    with env(alfred_debug=state, PYTEST_RUNNING=''):
+    with env(alfred_debug=state, PYTEST_RUNNING=""):
         wf = Workflow()
         assert wf.debugging == expected, "unexpected debugging"
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     pytest.main([__file__])
