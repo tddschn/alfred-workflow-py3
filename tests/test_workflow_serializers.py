@@ -10,30 +10,28 @@
 
 """Unit tests for serializer classes."""
 
-from __future__ import print_function, absolute_import
+
 
 import os
+import sys
 
 import pytest
 
 from workflow.workflow import (
     SerializerManager,
     JSONSerializer,
-    CPickleSerializer,
     PickleSerializer,
     manager as default_manager,
 )
 
-
 # default serializers
-SERIALIZERS = ('json', 'cpickle', 'pickle')
+SERIALIZERS = ('json', 'pickle')
 
 
 @pytest.fixture(scope='function')
 def manager():
     """Create a `SerializerManager` with the default config."""
     m = SerializerManager()
-    m.register('cpickle', CPickleSerializer)
     m.register('pickle', PickleSerializer)
     m.register('json', JSONSerializer)
     yield m
@@ -61,7 +59,7 @@ def test_serialization(tempdir, manager):
         path = os.path.join(tempdir, 'test.{0}'.format(name))
         assert not os.path.exists(path)
 
-        with open(path, 'wb') as file_obj:
+        with serializer.atomic_writer(path, 'w') as file_obj:
             serializer.dump(data, file_obj)
 
         assert os.path.exists(path)

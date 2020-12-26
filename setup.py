@@ -54,17 +54,25 @@ classifiers = [
     'Operating System :: MacOS :: MacOS X',
     'Intended Audience :: Developers',
     'Natural Language :: English',
-    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3.7',
     'Topic :: Software Development :: Libraries',
     'Topic :: Software Development :: Libraries :: Application Frameworks',
 ]
+install_requires = [
+    'six',
+    'requests>=2.25,<3',
+]
 tests_require = [
     'coverage',
-    'pytest',
-    'pytest_cov',
-    'pytest_httpbin',
-    'pytest_localserver',
+    'pyobjc-framework-Cocoa==5.3',
+    'pytest==4.6.10',
+    'pytest-cov==2.8.1',
+    'pytest-httpbin==1.0.0',
+    'pytest-localserver==0.5.0',
+    'flake8==3.8.1',
+    'flake8-docstrings==1.5.0',
 ]
+
 zip_safe = False
 
 setup(
@@ -80,6 +88,7 @@ setup(
     package_data=package_data,
     include_package_data=True,
     classifiers=classifiers,
+    install_requires=install_requires,
     tests_require=tests_require,
     cmdclass={'test': PyTestCommand},
     zip_safe=zip_safe,

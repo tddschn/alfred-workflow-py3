@@ -13,4 +13,8 @@
 .coverage.*
 .tox
 
+# tests data
+info.plist
+
+
 temp_*.py

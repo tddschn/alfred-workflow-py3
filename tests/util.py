@@ -10,27 +10,28 @@
 
 """Stuff used in multiple tests."""
 
-from __future__ import print_function, unicode_literals
 
-from cStringIO import StringIO
+
+from six.moves import cStringIO as StringIO
+from six.moves import getcwd
 import sys
 import os
 import shutil
 import subprocess
 import tempfile
+from pathlib import Path
 
-INFO_PLIST_TEST = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                               'data/info.plist.alfred2')
+root = Path(__file__).absolute().parent
+cwd = Path.cwd()
 
-INFO_PLIST_TEST3 = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                                'data/info.plist.alfred3')
+INFO_PLIST_TEST = root / 'data/info.plist.alfred2'
+
+INFO_PLIST_TEST3 = root / 'data/info.plist.alfred3'
 
 
-INFO_PLIST_PATH = os.path.join(os.path.abspath(os.getcwdu()),
-                               'info.plist')
+INFO_PLIST_PATH = cwd / 'info.plist'
 
-VERSION_PATH = os.path.join(os.path.abspath(os.getcwdu()),
-                            'version')
+VERSION_PATH = cwd / 'version'
 
 DEFAULT_SETTINGS = {
     'key1': 'value1',
@@ -57,6 +58,7 @@ class MockCall(object):
 
     def _check_output(self, cmd, **kwargs):
         self.cmd = cmd
+        return b'fakereturn'
 
     def __enter__(self):
         """Monkey-patch subprocess.check_output."""
@@ -156,7 +158,7 @@ class VersionFile(object):
 
     def __enter__(self):
         """Create version file."""
-        with open(self.path, 'wb') as fp:
+        with open(self.path, 'w') as fp:
             fp.write(self.version)
         print('version {0} in {1}'.format(self.version, self.path),
               file=sys.stderr)
@@ -182,15 +184,17 @@ class FakePrograms(object):
     def __enter__(self):
         """Inject program(s) into PATH."""
         self.tempdir = tempfile.mkdtemp()
-        for name, retcode in self.programs.items():
+        for name, retcode in list(self.programs.items()):
             path = os.path.join(self.tempdir, name)
-            with open(path, 'wb') as fp:
+            with open(path, 'w') as fp:
+                print(name, retcode)
                 fp.write("#!/bin/bash\n\nexit {0}\n".format(retcode))
-            os.chmod(path, 0700)
+            os.chmod(path, 700)
 
         # Add new programs to front of PATH
         self.orig_path = os.getenv('PATH')
         os.environ['PATH'] = self.tempdir + ':' + self.orig_path
+        return self
 
     def __exit__(self, *args):
         """Remove program(s) from PATH."""
@@ -226,18 +230,23 @@ class InfoPlist(object):
 
 def dump_env():
     """Print `os.environ` to STDOUT."""
-    for k, v in os.environ.items():
+    for k, v in list(os.environ.items()):
         if k.startswith('alfred_'):
             print('env: %s=%s' % (k, v))
 
 
-def create_info_plist(source=INFO_PLIST_TEST, dest=INFO_PLIST_PATH):
+def create_info_plist(source: Path=INFO_PLIST_TEST, dest: Path=INFO_PLIST_PATH):
     """Symlink ``source`` to ``dest``."""
-    if os.path.exists(source) and not os.path.exists(dest):
+    if source.exists() and not dest.exists():
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        assert source.exists(), f'{source} should exist'
+        assert not dest.exists(), f'{dest} should not exist'
+        # source.symlink_to(dest)
         os.symlink(source, dest)
 
 
 def delete_info_plist(path=INFO_PLIST_PATH):
     """Delete ``path`` if it exists."""
     if os.path.exists(path) and os.path.islink(path):
+        assert os.path.exists(path), f'destination {path} should exist'
         os.unlink(path)
