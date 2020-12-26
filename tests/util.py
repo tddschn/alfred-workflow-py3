@@ -239,7 +239,10 @@ def create_info_plist(source: Path=INFO_PLIST_TEST, dest: Path=INFO_PLIST_PATH):
     """Symlink ``source`` to ``dest``."""
     if source.exists() and not dest.exists():
         dest.parent.mkdir(parents=True, exist_ok=True)
-        source.symlink_to(dest)
+        assert source.exists(), f'{source} should exist'
+        assert not dest.exists(), f'{dest} should not exist'
+        # source.symlink_to(dest)
+        os.symlink(source, dest)
 
 
 def delete_info_plist(path=INFO_PLIST_PATH):
