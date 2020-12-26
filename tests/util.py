@@ -21,18 +21,17 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-INFO_PLIST_TEST = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                               'data/info.plist.alfred2')
+root = Path(__file__).absolute().parent
+cwd = Path.cwd()
 
-INFO_PLIST_TEST3 = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                                'data/info.plist.alfred3')
+INFO_PLIST_TEST = root / 'data/info.plist.alfred2'
+
+INFO_PLIST_TEST3 = root / 'data/info.plist.alfred3'
 
 
-INFO_PLIST_PATH = os.path.join(os.path.abspath(getcwd()),
-                               'info.plist')
+INFO_PLIST_PATH = cwd / 'info.plist'
 
-VERSION_PATH = os.path.join(os.path.abspath(getcwd()),
-                            'version')
+VERSION_PATH = cwd / 'version'
 
 DEFAULT_SETTINGS = {
     'key1': 'value1',
@@ -236,9 +235,8 @@ def dump_env():
             print('env: %s=%s' % (k, v))
 
 
-def create_info_plist(source=INFO_PLIST_TEST, dest=INFO_PLIST_PATH):
+def create_info_plist(source: Path=INFO_PLIST_TEST, dest: Path=INFO_PLIST_PATH):
     """Symlink ``source`` to ``dest``."""
-    source, dest = Path(source), Path(dest)
     if source.exists() and not dest.exists():
         dest.parent.mkdir(parents=True, exist_ok=True)
         source.symlink_to(dest)
