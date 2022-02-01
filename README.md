@@ -3,7 +3,7 @@
   <img src="./icon.png" alt="Alfred-Workflow logo" height="200">
 </div>
 
-Note: this is a fork of the amazing [https://github.com/deanishe/alfred-workflow](deanishe/alfred-workflow) and has some differences. Use [https://github.com/NorthIsUp/alfred-workflow-scaffold](alfred-workflow-scaffold) to help make developing _this_ fork easier.
+Note: this is a fork of the amazing [https://github.com/deanishe/alfred-workflow](deanishe/alfred-workflow) and has some differences. Use [https://github.com/NorthIsUp/alfred-workflow-scaffold](alfred-workflow-scaffold) to help make developing _this_ fork easier. I've also only put effort into the code, so this readme is out of date... sorry!
 
 Alfred-Workflow
 ===============
