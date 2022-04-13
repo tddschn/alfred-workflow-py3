@@ -3,7 +3,7 @@
   <img src="./icon.png" alt="Alfred-Workflow logo" height="200">
 </div>
 
-Note: this is a fork of the amazing [https://github.com/deanishe/alfred-workflow](deanishe/alfred-workflow) and has some differences. Use [https://github.com/NorthIsUp/alfred-workflow-scaffold](alfred-workflow-scaffold) to help make developing _this_ fork easier. I've also only put effort into the code, so this readme is out of date... sorry!
+Note: this is a fork of the amazing [https://github.com/deanishe/alfred-workflow][repo] and has some differences. Use [https://github.com/NorthIsUp/alfred-workflow-scaffold][alfred-workflow-scaffold] to help make developing _this_ fork easier. I've also only put effort into the code, so this readme is out of date... sorry!
 
 Alfred-Workflow
 ===============
@@ -19,7 +19,7 @@ A helper library in Python for authors of workflows for [Alfred 3 and 4][alfred]
 
 <!-- [![Downloads][shield-download]][pypi] -->
 
-Supports Alfred 3 and Alfred 4 on macOS 10.7+ (Python 2.7).
+Supports Alfred 3 and Alfred 4 on macOS 10.7+ (Python 3.7+).
 
 Alfred-Workflow takes the grunt work out of writing a workflow by giving you the tools to create a fast and featureful Alfred workflow from an API, application or library in minutes.
 
@@ -33,7 +33,6 @@ Features
 - Super-simple data caching with expiry
 - Fuzzy filtering (with smart diacritic folding)
 - Keychain support for secure storage of passwords, API keys etc.
-- Lightweight web API with [Requests][requests]-like interface
 - Background tasks to keep your workflow responsive
 - Simple generation of Alfred JSON feedback
 - Full support of Alfred's AppleScript/JXA API
@@ -117,7 +116,6 @@ Your workflow should look something like this:
             Notify.tgz
             update.py
             version
-            web.py
             workflow.py
         yourscript.py
         etc.
@@ -192,7 +190,11 @@ Cache data for 30 seconds:
 
 ```python
 def get_web_data():
-    return web.get('http://www.example.com').json()
+    import json
+    from urllib import request
+    with request.urlopen('http://www.example.com') as f:
+      data = f.read().decode('utf-8')
+    return json.loads(data)
 
 def main(wf):
     # Save data from `get_web_data` for 30 seconds under
@@ -203,35 +205,6 @@ def main(wf):
 
     wf.send_feedback()
 ```
-
-
-<a name="web"></a>
-#### Web ####
-
-Grab data from a JSON web API:
-
-```python
-data = web.get('http://www.example.com/api/1/stuff').json()
-```
-
-Post a form:
-
-```python
-r = web.post('http://www.example.com/',
-             data={'artist': 'Tom Jones', 'song': "It's not unusual"})
-```
-
-Upload a file:
-
-```python
-files = {'fieldname' : {'filename': "It's not unusual.mp3",
-                        'content': open("It's not unusual.mp3", 'rb').read()}
-}
-r = web.post('http://www.example.com/upload/', files=files)
-```
-
-**WARNING**: As this module is based on Python 2's standard HTTP libraries, *on old versions of OS X/Python, it does not validate SSL certificates when making HTTPS connections*. If your workflow uses sensitive passwords/API keys, you should *strongly consider* using the [requests][requests] library upon which the `web.py` API is based.
-
 
 <a name="keychain-access"></a>
 #### Keychain access ####
@@ -313,6 +286,7 @@ Workflows using Alfred-Workflow
 
 
 [alfred]: http://www.alfredapp.com/
+[alfred-workflow-scaffold]: https://github.com/NorthIsUp/alfred-workflow-scaffold
 [awv2]: https://github.com/deanishe/alfred-workflow/tree/v2
 [alabaster]: https://github.com/bitprophet/alabaster
 [bitprophet]: https://github.com/bitprophet
@@ -335,7 +309,7 @@ Workflows using Alfred-Workflow
 [pypi]: https://pypi.python.org/pypi/Alfred-Workflow/
 [releases]: https://github.com/deanishe/alfred-workflow/releases
 [repo]: https://github.com/deanishe/alfred-workflow
-[requests]: http://docs.python-requests.org/en/latest/
+[urllib]: https://docs.python.org/3/library/urllib.html
 [rtd]: https://readthedocs.org/
 [shield-coveralls]: https://coveralls.io/repos/github/deanishe/alfred-workflow/badge.svg?branch=master
 [shield-docs]: https://readthedocs.org/projects/alfredworkflow/badge/?version=latest&style=flat
