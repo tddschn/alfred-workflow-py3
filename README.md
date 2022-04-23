@@ -3,7 +3,7 @@
   <img src="./icon.png" alt="Alfred-Workflow logo" height="200">
 </div>
 
-Note: this is a fork of the amazing [https://github.com/deanishe/alfred-workflow][repo] and has some differences. Use [https://github.com/NorthIsUp/alfred-workflow-scaffold][alfred-workflow-scaffold] to help make developing _this_ fork easier. I've also only put effort into the code, so this readme is out of date... sorry!
+Note: this is a fork of the amazing [https://github.com/deanishe/alfred-workflow][repo] and has some differences. 
 
 Alfred-Workflow
 ===============
@@ -53,26 +53,27 @@ Features
 Contents
 --------
 
-<!-- MarkdownTOC autolink="true" bracket="round" depth="3" autoanchor="true" -->
 
-- [Installation](#installation)
-  - [With pip](#with-pip)
-  - [From source](#from-source)
-- [Usage](#usage)
-  - [Workflow script skeleton](#workflow-script-skeleton)
-  - [Examples](#examples)
-    - [Web](#web)
-    - [Keychain access](#keychain-access)
-- [Documentation](#documentation)
-  - [Dash docset](#dash-docset)
-- [Licensing, thanks](#licensing-thanks)
-- [Contributing](#contributing)
-  - [Adding a workflow to the list](#adding-a-workflow-to-the-list)
-  - [Bug reports, pull requests](#bug-reports-pull-requests)
-  - [Contributors](#contributors)
-- [Workflows using Alfred-Workflow](#workflows-using-alfred-workflow)
+- [Alfred-Workflow](#alfred-workflow)
+  - [Features](#features)
+    - [Alfred 4+ features](#alfred-4-features)
+  - [Contents](#contents)
+  - [Installation](#installation)
+    - [With pip](#with-pip)
+    - [From source](#from-source)
+  - [Usage](#usage)
+    - [Workflow script skeleton](#workflow-script-skeleton)
+    - [Examples](#examples)
+      - [Keychain access](#keychain-access)
+  - [Documentation](#documentation)
+    - [Dash docset](#dash-docset)
+  - [Licensing, thanks](#licensing-thanks)
+  - [Contributing](#contributing)
+    - [Adding a workflow to the list](#adding-a-workflow-to-the-list)
+    - [Bug reports, pull requests](#bug-reports-pull-requests)
+    - [Contributors](#contributors)
+  - [Workflows using Alfred-Workflow](#workflows-using-alfred-workflow)
 
-<!-- /MarkdownTOC -->
 
 
 <a name="installation"></a>
