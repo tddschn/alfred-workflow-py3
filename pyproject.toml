@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "alfred-workflow-tddschn"
+version = "0.1.0"
+description = "Full-featured helper library for writing Alfred 2/3/4 workflows, with Python 3"
+authors = ["Xinyuan Chen <45612704+tddschn@users.noreply.github.com>"]
+license = "MIT"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS :: MacOS X",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+six = "^1.16.0"
+requests = "^2.27.1"
+
+[tool.poetry.dev-dependencies]
+coverage = "^6.3.2"
+pytest = "^7.1.1"
+pytest-cov = "^3.0.0"
+pytest-httpbin = "^1.0.2"
+pytest-localserver = "^0.5.1"
+yapf = "^0.32.0"
+toml = "^0.10.2"
+better-exceptions = "^0.3.3"
+bump2version = "^1.0.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
