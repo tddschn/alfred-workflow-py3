@@ -3,9 +3,7 @@
 # MIT Licence applies http://opensource.org/licenses/MIT
 #
 # Created on 2019-05-05
-
 """Unit tests for Alfred 2 magic argument handling."""
-
 
 import pytest
 

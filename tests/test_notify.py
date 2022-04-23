@@ -7,9 +7,7 @@
 #
 # Created on 2016-02-22
 #
-
 """Unit tests for notifications."""
-
 
 import hashlib
 import logging
@@ -26,9 +24,8 @@ from workflow.workflow import Workflow
 from .conftest import BUNDLE_ID
 from .util import FakePrograms, WorkflowMock
 
-DATADIR = os.path.expanduser(
-    "~/Library/Application Support/Alfred/" "Workflow Data/" + BUNDLE_ID
-)
+DATADIR = os.path.expanduser("~/Library/Application Support/Alfred/"
+                             "Workflow Data/" + BUNDLE_ID)
 APP_PATH = os.path.join(DATADIR, "Notify.app")
 APPLET_PATH = os.path.join(APP_PATH, "Contents/MacOS/applet")
 ICON_PATH = os.path.join(APP_PATH, "Contents/Resources/applet.icns")

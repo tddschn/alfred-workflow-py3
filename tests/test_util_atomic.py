@@ -7,9 +7,7 @@
 #
 # Created on 2017-05-06
 #
-
 """Unit tests for :func:`~workflow.util.atomic_writer`."""
-
 
 import json
 import os

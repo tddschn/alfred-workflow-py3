@@ -7,9 +7,7 @@
 #
 # Created on 2014-10-02
 #
-
 """Generate a list of workflows on Packal that use Alfred-Workflow."""
-
 
 import argparse
 import csv
@@ -26,7 +24,8 @@ match_zip = re.compile(r"alfred-workflow-.*\.zip").search
 is_github_url = re.compile(r"^https?://github.com/.+$").match
 parse_github_url = re.compile(r"https?://github.com/(.+?)/(.+)").match
 
-WORKFLOW_LIST = os.path.join(os.path.dirname(__file__), "library_workflows.tsv")
+WORKFLOW_LIST = os.path.join(os.path.dirname(__file__),
+                             "library_workflows.tsv")
 PACKAL_REPO_URL = "https://github.com/packal/repository"
 PACKAL_REPO_DIR = os.path.expanduser("~/Temp/Packal-Repository")
 CACHE_PATH = os.path.expanduser("~/.packal_repo_cache.json")
@@ -111,9 +110,8 @@ class Cache(object):
         if workflow["bundle"] in self._data:
             data = self._data[workflow["bundle"]]
             cache_age = time() - data["cached"]
-            log.debug(
-                "Cache age of %s : %0.3f days", workflow["bundle"], cache_age / 86400
-            )
+            log.debug("Cache age of %s : %0.3f days", workflow["bundle"],
+                      cache_age / 86400)
             if cache_age < (MAX_CACHE_AGE * 86400):
                 update = False
 
@@ -136,7 +134,8 @@ class Cache(object):
                     data["github_user"] = username
                     data["github_repo"] = repo
                     data["github_repo_url"] = github_url
-                    data["github_user_url"] = "https://github.com/{}/".format(username)
+                    data["github_user_url"] = "https://github.com/{}/".format(
+                        username)
 
             data["cached"] = time()
             self._data[workflow["bundle"]] = data
@@ -154,19 +153,13 @@ def workflow_link(workflow, rest=False, github_links=True):
     if rest:
         output.append("`{name} <{url}>`__")
 
-        if (
-            github_links
-            and workflow.get("github_repo_url")
-            and workflow["github_repo_url"] != workflow["url"]
-        ):
+        if (github_links and workflow.get("github_repo_url")
+                and workflow["github_repo_url"] != workflow["url"]):
             output.append("(`GitHub repo <{github_repo_url}>`__)")
 
         if workflow.get("author_url"):
-            if (
-                github_links
-                and workflow.get("github_user_url")
-                and workflow["github_user_url"] != workflow["author_url"]
-            ):
+            if (github_links and workflow.get("github_user_url")
+                    and workflow["github_user_url"] != workflow["author_url"]):
                 output.append("by `{author} <{author_url}>`__")
                 output.append("(`on GitHub <{github_user_url}>`__).")
             else:
@@ -181,19 +174,13 @@ def workflow_link(workflow, rest=False, github_links=True):
     else:  # Markdown
         output.append("[{name}]({url})")
 
-        if (
-            github_links
-            and workflow.get("github_repo_url")
-            and workflow["github_repo_url"] != workflow["url"]
-        ):
+        if (github_links and workflow.get("github_repo_url")
+                and workflow["github_repo_url"] != workflow["url"]):
             output.append("([GitHub repo]({github_repo_url}))")
 
         if workflow.get("author_url"):
-            if (
-                github_links
-                and workflow.get("github_user_url")
-                and workflow["github_user_url"] != workflow["author_url"]
-            ):
+            if (github_links and workflow.get("github_user_url")
+                    and workflow["github_user_url"] != workflow["author_url"]):
                 output.append("by [{author}]({author_url})")
                 output.append("([on GitHub]({github_user_url})).")
             else:
@@ -242,9 +229,9 @@ def read_list(path):
                     workflow["github_user"] = username
                     workflow["github_repo"] = repo
                     workflow["github_repo_url"] = workflow["url"]
-                    workflow["github_user_url"] = "https://github.com/{}/".format(
-                        username
-                    )
+                    workflow[
+                        "github_user_url"] = "https://github.com/{}/".format(
+                            username)
                     if not workflow.get("author_url"):
                         workflow["author_url"] = workflow["github_user_url"]
             workflows.append(workflow)
@@ -332,7 +319,8 @@ def main():
         "--github",
         action="store_true",
         default=False,
-        help="Add GitHub links to repo/user profile." " Default is no extra links.",
+        help="Add GitHub links to repo/user profile."
+        " Default is no extra links.",
     )
     args = parser.parse_args()
 
@@ -346,7 +334,8 @@ def main():
 
     workflows = read_list(WORKFLOW_LIST)
 
-    packal_workflows = read_manifest(os.path.join(PACKAL_REPO_DIR, "manifest.xml"))
+    packal_workflows = read_manifest(
+        os.path.join(PACKAL_REPO_DIR, "manifest.xml"))
 
     bundles = []
 
@@ -373,7 +362,9 @@ def main():
             # return
             output.append((workflow["name"], workflow["bundle"]))
         else:
-            msg = workflow_link(workflow, rest=args.rest, github_links=args.github)
+            msg = workflow_link(workflow,
+                                rest=args.rest,
+                                github_links=args.github)
             if not msg.endswith("."):
                 msg += "."
             output.append((workflow["name"], msg))

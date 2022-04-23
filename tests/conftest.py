@@ -7,9 +7,7 @@
 #
 # Created on 2017-05-06
 #
-
 """Common pytest fixtures."""
-
 
 import os
 from contextlib import contextmanager
@@ -33,14 +31,14 @@ ENV_V2 = dict(
     alfred_workflow_bundleid=BUNDLE_ID,
     alfred_workflow_name=WORKFLOW_NAME,
     alfred_workflow_cache=os.path.expanduser(
-        "~/Library/Caches/com.runningwithcrayons.Alfred-2/" "Workflow Data/" + BUNDLE_ID
-    ),
+        "~/Library/Caches/com.runningwithcrayons.Alfred-2/"
+        "Workflow Data/" + BUNDLE_ID),
     alfred_workflow_data=os.path.expanduser(
-        "~/Library/Application Support/Alfred 2/" "Workflow Data/" + BUNDLE_ID
-    ),
+        "~/Library/Application Support/Alfred 2/"
+        "Workflow Data/" + BUNDLE_ID),
     alfred_preferences=os.path.expanduser(
-        "~/Library/Application Support/Alfred 2/" "Alfred.alfredpreferences"
-    ),
+        "~/Library/Application Support/Alfred 2/"
+        "Alfred.alfredpreferences"),
 )
 
 ENV_V3 = dict(
@@ -50,14 +48,14 @@ ENV_V3 = dict(
     alfred_workflow_bundleid=BUNDLE_ID,
     alfred_workflow_name=WORKFLOW_NAME,
     alfred_workflow_cache=os.path.expanduser(
-        "~/Library/Caches/com.runningwithcrayons.Alfred-3/" "Workflow Data/" + BUNDLE_ID
-    ),
+        "~/Library/Caches/com.runningwithcrayons.Alfred-3/"
+        "Workflow Data/" + BUNDLE_ID),
     alfred_workflow_data=os.path.expanduser(
-        "~/Library/Application Support/Alfred 3/" "Workflow Data/" + BUNDLE_ID
-    ),
+        "~/Library/Application Support/Alfred 3/"
+        "Workflow Data/" + BUNDLE_ID),
     alfred_preferences=os.path.expanduser(
-        "~/Library/Application Support/Alfred 3/" "Alfred.alfredpreferences"
-    ),
+        "~/Library/Application Support/Alfred 3/"
+        "Alfred.alfredpreferences"),
 )
 
 ENV_V4 = dict(
@@ -67,14 +65,14 @@ ENV_V4 = dict(
     alfred_workflow_bundleid=BUNDLE_ID,
     alfred_workflow_name=WORKFLOW_NAME,
     alfred_workflow_cache=os.path.expanduser(
-        "~/Library/Caches/com.runningwithcrayons.Alfred/" "Workflow Data/" + BUNDLE_ID
-    ),
+        "~/Library/Caches/com.runningwithcrayons.Alfred/"
+        "Workflow Data/" + BUNDLE_ID),
     alfred_workflow_data=os.path.expanduser(
-        "~/Library/Application Support/Alfred/" "Workflow Data/" + BUNDLE_ID
-    ),
+        "~/Library/Application Support/Alfred/"
+        "Workflow Data/" + BUNDLE_ID),
     alfred_preferences=os.path.expanduser(
-        "~/Library/Application Support/Alfred/" "Alfred.alfredpreferences"
-    ),
+        "~/Library/Application Support/Alfred/"
+        "Alfred.alfredpreferences"),
 )
 
 COMMON = dict(

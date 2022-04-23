@@ -7,9 +7,7 @@
 #
 # Created on 2016-02-24
 #
-
 """Unit tests for Workflow.settings API."""
-
 
 import json
 import os
@@ -82,7 +80,8 @@ class SettingsTests(unittest.TestCase):
         """Settings not rewritten for same value"""
         s = Settings(self.settings_file)
         mt = os.path.getmtime(self.settings_file)
-        time.sleep(0.1)  # wait long enough to register changes in `time.time()`
+        time.sleep(
+            0.1)  # wait long enough to register changes in `time.time()`
         now = time.time()
         for k, v in list(DEFAULT_SETTINGS.items()):
             s[k] = v

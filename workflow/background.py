@@ -6,7 +6,6 @@
 #
 # Created on 2014-04-06
 #
-
 """This module provides an API to run commands in background processes.
 
 Combine with the :ref:`caching API <caching-data>` to work from cached data
@@ -15,7 +14,6 @@ while you fetch fresh data in the background.
 See :ref:`the User Manual <background-processes>` for more information
 and examples.
 """
-
 
 import os
 import pickle
@@ -121,9 +119,10 @@ def is_running(name):
     return False
 
 
-def _background(
-    pidfile, stdin="/dev/null", stdout="/dev/null", stderr="/dev/null"
-):  # pragma: no cover
+def _background(pidfile,
+                stdin="/dev/null",
+                stdout="/dev/null",
+                stderr="/dev/null"):  # pragma: no cover
     """Fork the current process into a background daemon.
 
     :param pidfile: file to write PID of daemon process to.

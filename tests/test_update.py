@@ -7,9 +7,7 @@
 #
 # Created on 2014-08-16
 #
-
 """Unit tests for update mechanism."""
-
 
 import os
 import re
@@ -34,9 +32,11 @@ RELEASES_JSON_EMPTY = "[]"
 # A list of valid and invalid releases. The below variables
 # refer to these data.
 RELEASES_JSON = open(os.path.join(DATA_DIR, "gh-releases.json")).read()
-RELEASES_4PLUS_JSON = open(os.path.join(DATA_DIR, "gh-releases-4plus.json")).read()
+RELEASES_4PLUS_JSON = open(os.path.join(DATA_DIR,
+                                        "gh-releases-4plus.json")).read()
 # A dummy Alfred workflow
-DATA_WORKFLOW = open(os.path.join(DATA_DIR, "Dummy-6.0.alfredworkflow"), "rb").read()
+DATA_WORKFLOW = open(os.path.join(DATA_DIR, "Dummy-6.0.alfredworkflow"),
+                     "rb").read()
 
 # Alfred 4
 RELEASE_LATEST = "9.0"
@@ -72,9 +72,9 @@ URL_DL = "https://github.com/releases/download/v6.0/Dummy-6.0.alfredworkflow"
 URL_BAD = "http://github.com/file.zip"
 # INVALID_RELEASE_URL = GH_ROOT + '/releases/download/v3.0/Dummy-3.0.zip'
 
-DL_BAD = Download(
-    url="http://github.com/file.zip", filename="file.zip", version=Version("0")
-)
+DL_BAD = Download(url="http://github.com/file.zip",
+                  filename="file.zip",
+                  version=Version("0"))
 
 
 @contextmanager
@@ -226,7 +226,8 @@ def test_check_update(httpserver, infopl, alfred4):
             assert wf.update_available == wanted
 
             if wanted:  # other data may not be set if available is False
-                v = update.check_update(TEST_REPO, status["version"], pre, alfred)
+                v = update.check_update(TEST_REPO, status["version"], pre,
+                                        alfred)
                 assert v is False
 
 
@@ -286,9 +287,10 @@ def test_no_auto_update(infopl, alfred4):
 
     c = WorkflowMock()
     with c:
-        wf = Workflow(
-            update_settings={"github_slug": TEST_REPO, "version": RELEASE_CURRENT}
-        )
+        wf = Workflow(update_settings={
+            "github_slug": TEST_REPO,
+            "version": RELEASE_CURRENT
+        })
 
         assert wf.cached_data(key) is None
 
@@ -362,7 +364,6 @@ VALID_DOWNLOADS = [
         False,
     ),
 ]
-
 
 if __name__ == "__main__":  # pragma: no cover
     pytest.main([__file__])

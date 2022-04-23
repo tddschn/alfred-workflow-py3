@@ -7,9 +7,7 @@
 #
 # Created on 2014-08-16
 #
-
 """Test `update.Version` class."""
-
 
 import unittest
 

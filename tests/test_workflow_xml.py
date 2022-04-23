@@ -7,9 +7,7 @@
 #
 # Created on 2017-05-06
 #
-
 """Unit tests for Workflow's XML feedback generation."""
-
 
 import sys
 from contextlib import contextmanager
@@ -120,9 +118,8 @@ def test_item_creation_with_modifiers(wf):
     assert item.attrib["autocomplete"] == "autocomplete"
     assert item.attrib["valid"] == "yes"
     assert item.attrib["uid"] == "uid"
-    (title, subtitle, sub_cmd, sub_ctrl, sub_alt, sub_shift, sub_fn, arg, icon) = list(
-        item
-    )
+    (title, subtitle, sub_cmd, sub_ctrl, sub_alt, sub_shift, sub_fn, arg,
+     icon) = list(item)
     assert title.text == "title"
     assert title.tag == "title"
     assert subtitle.text == "subtitle"

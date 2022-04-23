@@ -7,9 +7,7 @@
 #
 # Created on 2016-06-25
 #
-
 """Test Workflow3 feedback."""
-
 
 import json
 import os
@@ -209,13 +207,11 @@ def _test_persistent_variables(appname):
         assert m.cmd is None
 
         # With persistence
-        script = (
-            'Application("' + appname + '")'
-            '.setConfiguration("testvar", '
-            '{"exportable": false, '
-            '"inWorkflow": "net.deanishe.alfred-workflow", '
-            '"toValue": "testval"});'
-        )
+        script = ('Application("' + appname + '")'
+                  '.setConfiguration("testvar", '
+                  '{"exportable": false, '
+                  '"inWorkflow": "net.deanishe.alfred-workflow", '
+                  '"toValue": "testval"});')
 
     cmd = ["/usr/bin/osascript", "-l", "JavaScript", "-e", script]
     with MockCall() as m:
@@ -318,7 +314,10 @@ def test_modifiers(infopl):
 
     it = wf.add_item("Title", "Subtitle", arg="value", valid=False)
     it.setvar("prevar", "preval")
-    mod = it.add_modifier("cmd", subtitle="Subtitle2", arg="value2", valid=True)
+    mod = it.add_modifier("cmd",
+                          subtitle="Subtitle2",
+                          arg="value2",
+                          valid=True)
     it.setvar("postvar", "postval")
     wf.setvar("wfpostvar", "wfpostval")
     mod.setvar("modvar", "hello")
@@ -382,7 +381,10 @@ def test_modifier_icon(infopl):
     )
     o = mod.obj
     assert "icon" in o
-    assert o["icon"] == {"path": "/Applications/Safari.app", "type": "fileicon"}
+    assert o["icon"] == {
+        "path": "/Applications/Safari.app",
+        "type": "fileicon"
+    }
 
 
 def test_item_config(infopl):
@@ -421,9 +423,8 @@ def test_default_directories3(alfred3):
 
     _test_default_directories(
         expanduser("~/Library/Application Support/Alfred 3/Workflow Data/"),
-        expanduser(
-            "~/Library/Caches/com.runningwithcrayons.Alfred-3/" "Workflow Data/"
-        ),
+        expanduser("~/Library/Caches/com.runningwithcrayons.Alfred-3/"
+                   "Workflow Data/"),
     )
 
 
@@ -433,15 +434,16 @@ def test_default_directories(alfred4):
 
     _test_default_directories(
         expanduser("~/Library/Application Support/Alfred/Workflow Data/"),
-        expanduser("~/Library/Caches/com.runningwithcrayons.Alfred/" "Workflow Data/"),
+        expanduser("~/Library/Caches/com.runningwithcrayons.Alfred/"
+                   "Workflow Data/"),
     )
 
     with env(alfred_workflow_data=None, alfred_workflow_cache=None):
         _test_default_directories(
-            expanduser("~/Library/Application Support/Alfred/" "Workflow Data/"),
-            expanduser(
-                "~/Library/Caches/com.runningwithcrayons.Alfred/" "Workflow Data/"
-            ),
+            expanduser("~/Library/Application Support/Alfred/"
+                       "Workflow Data/"),
+            expanduser("~/Library/Caches/com.runningwithcrayons.Alfred/"
+                       "Workflow Data/"),
         )
 
 
@@ -538,8 +540,13 @@ def test_variables_unicode():
     d = {
         "alfredworkflow": {
             "arg": "fübar",
-            "variables": {"englisch": "englisch", "französisch": "französisch"},
-            "config": {"über": "über"},
+            "variables": {
+                "englisch": "englisch",
+                "französisch": "französisch"
+            },
+            "config": {
+                "über": "über"
+            },
         }
     }
     print((repr(v.obj)))

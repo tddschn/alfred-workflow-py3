@@ -8,7 +8,6 @@
 #
 # Created on 2014-08-16
 #
-
 """Self-updating from GitHub.
 
 .. versionadded:: 1.9
@@ -20,7 +19,6 @@
    :class:`~workflow.workflow.Workflow` objects.
 
 """
-
 
 import json
 import os
@@ -37,7 +35,6 @@ from workflow.util import atomic_writer
 from . import workflow
 
 # __all__ = []
-
 
 RELEASES_BASE = "https://api.github.com/repos/{}/releases"
 match_workflow = re.compile(r"\.alfred(\d+)?workflow$").search
@@ -105,7 +102,8 @@ class Download(object):
             try:
                 version = Version(tag)
             except ValueError as err:
-                wf().logger.debug('ignored release: bad version "%s": %s', tag, err)
+                wf().logger.debug('ignored release: bad version "%s": %s', tag,
+                                  err)
                 continue
 
             dls = []
@@ -119,13 +117,15 @@ class Download(object):
 
                 ext = m.group(0)
                 dupes[ext] = dupes[ext] + 1
-                dls.append(Download(url, filename, version, release["prerelease"]))
+                dls.append(
+                    Download(url, filename, version, release["prerelease"]))
 
             valid = True
             for ext, n in list(dupes.items()):
                 if n > 1:
                     wf().logger.debug(
-                        'ignored release "%s": multiple assets ' 'with extension "%s"',
+                        'ignored release "%s": multiple assets '
+                        'with extension "%s"',
                         tag,
                         ext,
                     )
@@ -177,14 +177,12 @@ class Download(object):
 
     def __str__(self):
         """Format `Download` for printing."""
-        return (
-            "Download("
-            "url={dl.url!r}, "
-            "filename={dl.filename!r}, "
-            "version={dl.version!r}, "
-            "prerelease={dl.prerelease!r}"
-            ")"
-        ).format(dl=self)
+        return ("Download("
+                "url={dl.url!r}, "
+                "filename={dl.filename!r}, "
+                "version={dl.version!r}, "
+                "prerelease={dl.prerelease!r}"
+                ")").format(dl=self)
 
     def __repr__(self):
         """Code-like representation of `Download`."""
@@ -192,12 +190,9 @@ class Download(object):
 
     def __eq__(self, other):
         """Compare Downloads based on version numbers."""
-        if (
-            self.url != other.url
-            or self.filename != other.filename
-            or self.version != other.version
-            or self.prerelease != other.prerelease
-        ):
+        if (self.url != other.url or self.filename != other.filename
+                or self.version != other.version
+                or self.prerelease != other.prerelease):
             return False
         return True
 
@@ -278,7 +273,7 @@ class Version(object):
             # Build info
             idx = suffix.find("+")
             if idx > -1:
-                self.build = suffix[idx + 1 :]
+                self.build = suffix[idx + 1:]
                 suffix = suffix[:idx]
             if suffix:
                 if not suffix.startswith("-"):
@@ -386,7 +381,8 @@ def retrieve_download(dl):
         raise ValueError("attachment not a workflow: " + dl.filename)
 
     path = os.path.join(tempfile.gettempdir(), dl.filename)
-    wf().logger.debug("downloading update from " "%r to %r ...", dl.url, path)
+    wf().logger.debug("downloading update from "
+                      "%r to %r ...", dl.url, path)
 
     r = request.urlopen(dl.url)
 
@@ -463,7 +459,10 @@ def latest_download(dls, alfred_version=None, prereleases=False):
     return None
 
 
-def check_update(repo, current_version, prereleases=False, alfred_version=None):
+def check_update(repo,
+                 current_version,
+                 prereleases=False,
+                 alfred_version=None):
     """Check whether a newer release is available on GitHub.
 
     Args:
@@ -504,9 +503,11 @@ def check_update(repo, current_version, prereleases=False, alfred_version=None):
     wf().logger.debug("latest=%r, installed=%r", dl.version, current)
 
     if dl.version > current:
-        wf().cache_data(
-            key, {"version": str(dl.version), "download": dl.dict, "available": True}
-        )
+        wf().cache_data(key, {
+            "version": str(dl.version),
+            "download": dl.dict,
+            "available": True
+        })
         return True
 
     wf().cache_data(key, no_update)
@@ -549,7 +550,8 @@ if __name__ == "__main__":  # pragma: nocover
 
     def show_help(status=0):
         """Print help message."""
-        print("usage: update.py (check|install) " "[--prereleases] <repo> <version>")
+        print("usage: update.py (check|install) "
+              "[--prereleases] <repo> <version>")
         sys.exit(status)
 
     argv = sys.argv[:]

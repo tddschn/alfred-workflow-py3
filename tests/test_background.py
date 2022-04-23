@@ -7,9 +7,7 @@
 #
 # Created on 2017-05-06
 #
-
 """Unit tests for :mod:`workflow.background`."""
-
 
 import os
 import sys

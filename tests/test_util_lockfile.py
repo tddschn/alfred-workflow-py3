@@ -7,9 +7,7 @@
 #
 # Created on 2017-04-01
 #
-
 """Test LockFile functionality."""
-
 
 import os
 import shutil
@@ -129,9 +127,8 @@ def test_concurrent_settings(paths):
     # initialise file
     Settings(paths.testfile, defaults)
 
-    data = [
-        (paths, "thread_{0}".format(i), "value_{0}".format(i)) for i in range(1, 10)
-    ]
+    data = [(paths, "thread_{0}".format(i), "value_{0}".format(i))
+            for i in range(1, 10)]
 
     pool = Pool(5)
     errs = pool.map(_write_settings, data)

@@ -3,9 +3,7 @@
 # MIT Licence applies http://opensource.org/licenses/MIT
 #
 # Created 2019-05-05
-
 """Unit tests for Workflow.run."""
-
 
 import sys
 from io import StringIO

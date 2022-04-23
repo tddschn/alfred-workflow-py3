@@ -7,7 +7,6 @@
 #
 # Created on 2014-02-15
 #
-
 """A helper library for `Alfred <http://www.alfredapp.com/>`_ workflows."""
 
 import os

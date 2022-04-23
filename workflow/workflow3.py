@@ -6,7 +6,6 @@
 #
 # Created on 2016-06-25
 #
-
 """An Alfred 3+ version of :class:`~workflow.Workflow`.
 
 :class:`~workflow.Workflow3` supports new features, such as
@@ -22,7 +21,6 @@ of them, and they won't be sent to Alfred when you call
 :meth:`Workflow3.send_feedback()`.
 
 """
-
 
 import json
 import os
@@ -143,9 +141,13 @@ class Modifier(object):
 
     """
 
-    def __init__(
-        self, key, subtitle=None, arg=None, valid=None, icon=None, icontype=None
-    ):
+    def __init__(self,
+                 key,
+                 subtitle=None,
+                 arg=None,
+                 valid=None,
+                 icon=None,
+                 icontype=None):
         """Create a new :class:`Modifier`.
 
         Don't use this class directly (as it won't be associated with any
@@ -322,9 +324,13 @@ class Item3(object):
         """
         return self.variables.get(name, default)
 
-    def add_modifier(
-        self, key, subtitle=None, arg=None, valid=None, icon=None, icontype=None
-    ):
+    def add_modifier(self,
+                     key,
+                     subtitle=None,
+                     arg=None,
+                     valid=None,
+                     icon=None,
+                     icontype=None):
         """Add alternative values for a modifier key.
 
         Args:
@@ -362,7 +368,11 @@ class Item3(object):
 
         """
         # Required values
-        o = {"title": self.title, "subtitle": self.subtitle, "valid": self.valid}
+        o = {
+            "title": self.title,
+            "subtitle": self.subtitle,
+            "valid": self.valid
+        }
 
         # Optional values
         if self.arg is not None:
@@ -487,8 +497,8 @@ class Workflow3(Workflow):
         """Alfred 4's default cache directory."""
         return os.path.join(
             os.path.expanduser(
-                "~/Library/Caches/com.runningwithcrayons.Alfred/" "Workflow Data/"
-            ),
+                "~/Library/Caches/com.runningwithcrayons.Alfred/"
+                "Workflow Data/"),
             self.bundleid,
         )
 
@@ -496,7 +506,8 @@ class Workflow3(Workflow):
     def _default_datadir(self):
         """Alfred 4's default data directory."""
         return os.path.join(
-            os.path.expanduser("~/Library/Application Support/Alfred/Workflow Data/"),
+            os.path.expanduser(
+                "~/Library/Application Support/Alfred/Workflow Data/"),
             self.bundleid,
         )
 
@@ -554,9 +565,8 @@ class Workflow3(Workflow):
             from .util import set_config
 
             set_config(name, value, self.bundleid)
-            self.logger.debug(
-                "saved variable %r with value %r to info.plist", name, value
-            )
+            self.logger.debug("saved variable %r with value %r to info.plist",
+                              name, value)
 
     def getvar(self, name, default=None):
         """Return value of workflow variable for ``name`` or ``default``.
@@ -708,8 +718,7 @@ class Workflow3(Workflow):
             if current:
                 return filename.startswith("_wfsess-")
             return filename.startswith("_wfsess-") and not filename.startswith(
-                self._session_prefix
-            )
+                self._session_prefix)
 
         self.clear_cache(_is_session_file)
 

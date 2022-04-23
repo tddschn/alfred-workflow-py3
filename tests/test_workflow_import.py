@@ -3,9 +3,7 @@
 # MIT Licence applies http://opensource.org/licenses/MIT
 #
 # Created 2019-05-05
-
 """Unit tests for sys.path manipulation."""
-
 
 import os
 import sys
@@ -23,7 +21,7 @@ def test_additional_libs(alfred4, infopl):
     for path in LIBS:
         assert path in sys.path
 
-    assert sys.path[0 : len(LIBS)] == LIBS
+    assert sys.path[0:len(LIBS)] == LIBS
     import youcanimportme
 
     youcanimportme.noop()

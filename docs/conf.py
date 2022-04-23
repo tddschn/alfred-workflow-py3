@@ -154,7 +154,8 @@ if not on_rtd:
         # 'patreon_user_number': '890395',
         "logo_name": True,
         "logo_text_align": "center",
-        "description": "A helper library for creating workflows for Alfred 2+.",
+        "description":
+        "A helper library for creating workflows for Alfred 2+.",
         # 'font_family': ("Georgia, 'goudy old style', 'minion pro',"
         #                 "'bell mt', 'Hiragino Mincho Pro', serif"),
     }
@@ -229,7 +230,6 @@ html_static_path = ["_static"]
 # Output file base name for HTML help builder.
 htmlhelp_basename = "Alfred-Workflow"
 
-
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
@@ -244,15 +244,13 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    (
-        "index",
-        "Alfred-Workflow.tex",
-        "Alfred-Workflow Documentation",
-        "Dean Jackson <deanishe@deanishe.net>",
-        "manual",
-    )
-]
+latex_documents = [(
+    "index",
+    "Alfred-Workflow.tex",
+    "Alfred-Workflow Documentation",
+    "Dean Jackson <deanishe@deanishe.net>",
+    "manual",
+)]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
@@ -274,41 +272,35 @@ latex_documents = [
 # If false, no module index is generated.
 # latex_domain_indices = True
 
-
 # -- Options for manual page output ---------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (
-        "index",
-        "alfred-workflow",
-        "Alfred-Workflow Documentation",
-        ["Dean Jackson <deanishe@deanishe.net>"],
-        1,
-    )
-]
+man_pages = [(
+    "index",
+    "alfred-workflow",
+    "Alfred-Workflow Documentation",
+    ["Dean Jackson <deanishe@deanishe.net>"],
+    1,
+)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
-
 
 # -- Options for Texinfo output -------------------------------------------
 
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
-texinfo_documents = [
-    (
-        "index",
-        "Alfred-Workflow",
-        "Alfred-Workflow Documentation",
-        "Dean Jackson <deanishe@deanishe.net>",
-        "Alfred-Workflow",
-        "Python helper library for Alfred Workflows",
-        "Miscellaneous",
-    )
-]
+texinfo_documents = [(
+    "index",
+    "Alfred-Workflow",
+    "Alfred-Workflow Documentation",
+    "Dean Jackson <deanishe@deanishe.net>",
+    "Alfred-Workflow",
+    "Python helper library for Alfred Workflows",
+    "Miscellaneous",
+)]
 
 # Documents to append as an appendix to all manuals.
 # texinfo_appendices = []
@@ -321,7 +313,6 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 # texinfo_no_detailmenu = False
-
 
 # -- Options for Epub output ----------------------------------------------
 

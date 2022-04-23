@@ -7,20 +7,19 @@
 #
 # Created on 2014-03-07
 #
-
 """
 
 Generate a ReST table of icons in :mod:`workflow.workflow` with previews.
 
 """
 
-
 import os
 import subprocess
 
 import workflow
 
-outdir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs", "_static")
+outdir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs",
+                      "_static")
 
 
 def make_thumbnail(infile, outfile):
@@ -48,10 +47,10 @@ for name in dir(workflow):
 
 col1 += 5
 
-
 print(("+" + ("-" * col1) + "+" + ("-" * col2) + "+"))
 print(("| Name".ljust(col1 + 1) + "| Preview".ljust(col2 + 1) + "|"))
 print(("+" + ("=" * col1) + "+" + ("=" * col2) + "+"))
 for name, image in entries:
-    print(("|``{}``".format(name).ljust(col1 + 1) + "|" + image.ljust(col2) + "|"))
+    print(("|``{}``".format(name).ljust(col1 + 1) + "|" + image.ljust(col2) +
+           "|"))
     print(("+" + ("-" * col1) + "+" + ("-" * col2) + "+"))

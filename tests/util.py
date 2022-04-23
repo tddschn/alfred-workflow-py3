@@ -7,9 +7,7 @@
 #
 # Created on 2014-08-17
 #
-
 """Stuff used in multiple tests."""
-
 
 import os
 import shutil
@@ -27,7 +25,6 @@ INFO_PLIST_TEST = root / "data/info.plist.alfred2"
 
 INFO_PLIST_TEST3 = root / "data/info.plist.alfred3"
 
-
 INFO_PLIST_PATH = cwd / "info.plist"
 
 VERSION_PATH = cwd / "version"
@@ -36,7 +33,9 @@ DEFAULT_SETTINGS = {
     "key1": "value1",
     "key2": "hübner",
     "mutable1": ["mutable", "object"],
-    "mutable2": {"mutable": ["nested", "object"]},
+    "mutable2": {
+        "mutable": ["nested", "object"]
+    },
 }
 
 
@@ -159,7 +158,8 @@ class VersionFile(object):
         """Create version file."""
         with open(self.path, "w") as fp:
             fp.write(self.version)
-        print("version {0} in {1}".format(self.version, self.path), file=sys.stderr)
+        print("version {0} in {1}".format(self.version, self.path),
+              file=sys.stderr)
 
     def __exit__(self, *args):
         """Remove version file."""
@@ -233,7 +233,8 @@ def dump_env():
             print("env: %s=%s" % (k, v))
 
 
-def create_info_plist(source: Path = INFO_PLIST_TEST, dest: Path = INFO_PLIST_PATH):
+def create_info_plist(source: Path = INFO_PLIST_TEST,
+                      dest: Path = INFO_PLIST_PATH):
     """Symlink ``source`` to ``dest``."""
     if source.exists() and not dest.exists():
         dest.parent.mkdir(parents=True, exist_ok=True)

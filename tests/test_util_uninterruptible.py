@@ -7,9 +7,7 @@
 #
 # Created on 2017-05-06
 #
-
 """Unit tests for ``uninterruptible`` decorator."""
-
 
 import os
 import signal

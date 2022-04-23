@@ -7,9 +7,7 @@
 #
 # Created on 2016-02-27
 #
-
 """Unit tests for Workflow's update API."""
-
 
 import os
 import sys
@@ -118,7 +116,8 @@ def test_install_update(httpserver, alfred4):
         update_settings = UPDATE_SETTINGS.copy()
         del update_settings["version"]
         with env(alfred_workflow_version="v9.0"):
-            with ctx(["workflow:update"], update_settings, clear=False) as (wf, c):
+            with ctx(["workflow:update"], update_settings,
+                     clear=False) as (wf, c):
                 wf.run(fake)
                 wf.args
                 # Update command wasn't called
@@ -127,7 +126,8 @@ def test_install_update(httpserver, alfred4):
         # via update settings
         with env(alfred_workflow_version=None):
             update_settings["version"] = "v9.0"
-            with ctx(["workflow:update"], update_settings, clear=False) as (wf, c):
+            with ctx(["workflow:update"], update_settings,
+                     clear=False) as (wf, c):
                 wf.run(fake)
                 wf.args
                 # Update command wasn't called

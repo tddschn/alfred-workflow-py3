@@ -7,9 +7,7 @@
 #
 # Created on 2014-03-01
 #
-
 """Unit tests for :mod:`workflow.Workflow`."""
-
 
 import logging
 import os
@@ -108,7 +106,8 @@ def test_icons():
             assert os.path.exists(path)
 
 
-@pytest.mark.parametrize("state,expected", [("", False), ("0", False), ("1", True)])
+@pytest.mark.parametrize("state,expected", [("", False), ("0", False),
+                                            ("1", True)])
 def test_debugging(alfred4, state, expected):
     """Debugging"""
     with env(alfred_debug=state, PYTEST_RUNNING=""):

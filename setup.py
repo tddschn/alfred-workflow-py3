@@ -3,11 +3,10 @@
 #
 # Copyright (c) 2014 Dean Jackson <deanishe@deanishe.net>
 #
-# MIT Licence. See http://opensource.org/licenses/MIT
+# MIT License. See http://opensource.org/licenses/MIT
 #
 # Created on 2014-08-17
 #
-
 """Alfred-Workflow library for building Alfred 3/4 workflows."""
 
 import subprocess

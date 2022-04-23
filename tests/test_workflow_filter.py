@@ -3,9 +3,7 @@
 # MIT Licence applies http://opensource.org/licenses/MIT
 #
 # Created 2019-05-05
-
 """Unit tests for :meth:`workflow.Workflow.filter`."""
-
 
 import pytest
 
@@ -63,14 +61,18 @@ def _print_results(results):
 
 def test_filter_all_rules(wf):
     """Filter: all rules"""
-    results = wf.filter(
-        "test", SEARCH_ITEMS, key=lambda x: x[0], ascending=True, match_on=MATCH_ALL
-    )
+    results = wf.filter("test",
+                        SEARCH_ITEMS,
+                        key=lambda x: x[0],
+                        ascending=True,
+                        match_on=MATCH_ALL)
     assert len(results) == 8
     # now with scores, rules
-    results = wf.filter(
-        "test", SEARCH_ITEMS, key=lambda x: x[0], include_score=True, match_on=MATCH_ALL
-    )
+    results = wf.filter("test",
+                        SEARCH_ITEMS,
+                        key=lambda x: x[0],
+                        include_score=True,
+                        match_on=MATCH_ALL)
     assert len(results) == 8
     for item, score, rule in results:
         wf.logger.debug("%s : %s", item, score)
@@ -112,9 +114,11 @@ def test_filter_only_caps(wf):
 
 def test_filter_max_results(wf):
     """Filter: max results"""
-    results = wf.filter(
-        "test", SEARCH_ITEMS, key=lambda x: x[0], ascending=True, max_results=4
-    )
+    results = wf.filter("test",
+                        SEARCH_ITEMS,
+                        key=lambda x: x[0],
+                        ascending=True,
+                        max_results=4)
     assert len(results) == 4
 
 
@@ -148,9 +152,10 @@ def test_filter_no_folding(wf):
 @pytest.mark.parametrize("key,query", SEARCH_ITEMS_DIACRITICS)
 def test_filter_folding_off(wf, key, query):
     """Filter: diacritic folding off"""
-    results = wf.filter(
-        query, [key], min_score=90, include_score=True, fold_diacritics=False
-    )
+    results = wf.filter(query, [key],
+                        min_score=90,
+                        include_score=True,
+                        fold_diacritics=False)
     assert len(results) == 0
 
 
@@ -158,10 +163,12 @@ def test_filter_folding_off(wf, key, query):
 def test_filter_folding_force_on(wf, key, query):
     """Filter: diacritic folding forced on"""
     wf.settings["__workflow_diacritic_folding"] = True
-    results = wf.filter(
-        query, [key], min_score=90, include_score=True, fold_diacritics=False
-    )
-    assert len(results) == 1, f'expected q={query} over "{key}" to find one result'
+    results = wf.filter(query, [key],
+                        min_score=90,
+                        include_score=True,
+                        fold_diacritics=False)
+    assert len(
+        results) == 1, f'expected q={query} over "{key}" to find one result'
 
 
 @pytest.mark.parametrize("key,query", SEARCH_ITEMS_DIACRITICS)

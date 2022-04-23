@@ -7,9 +7,7 @@
 #
 # Created on 2016-07-9
 #
-
 """Benchmark the loading speed of Alfred-Workflow."""
-
 
 import os
 import subprocess
@@ -54,9 +52,8 @@ class Table(object):
             row (iterable): Items for the row.
         """
         if self.width and len(row) != self.width:
-            raise ValueError(
-                "Rows must have {} elements, not {}".format(self.width, len(row))
-            )
+            raise ValueError("Rows must have {} elements, not {}".format(
+                self.width, len(row)))
 
         row = [title] + list(row)
         self.rows.append(row)
@@ -180,7 +177,11 @@ class Benchmark(object):
         self.errors = []
         # Add grandparent directory to PYTHONPATH, so scripts can see
         # workflow package
-        env = {"HOME": os.getenv("HOME"), "PATH": "/bin:/usr/bin", "PYTHONPATH": pydir}
+        env = {
+            "HOME": os.getenv("HOME"),
+            "PATH": "/bin:/usr/bin",
+            "PYTHONPATH": pydir
+        }
         # env.update(os.environ)
         # env['PYTHONPATH'] = ':'.join([pydir,
         #                              env.get('PYTHONPATH', '')]).strip(':')
@@ -255,9 +256,10 @@ def main():
         av = 0.0
         if runn > 0:
             av = total / runn
-        t.add_row(
-            [b.name, times, errn, "{:0.1f}s".format(total), "{:0.4f}s".format(av)]
-        )
+        t.add_row([
+            b.name, times, errn, "{:0.1f}s".format(total),
+            "{:0.4f}s".format(av)
+        ])
 
     print(t)
 

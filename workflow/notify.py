@@ -9,7 +9,6 @@
 #
 
 # TODO: Exclude this module from test and code coverage in py2.6
-
 """
 Post notifications via the macOS Notification Center.
 
@@ -22,7 +21,6 @@ It works by copying a simple application to your workflow's data
 directory. It replaces the application's icon with your workflow's
 icon and then calls the application to post notifications.
 """
-
 
 import os
 import plistlib
@@ -38,7 +36,6 @@ from . import workflow
 
 _wf = None
 _log = None
-
 
 #: Available system sounds from System Preferences > Sound > Sound Effects
 SOUNDS = (
@@ -227,9 +224,10 @@ def convert_image(inpath, outpath, size):
     cmd = ["sips", "-z", str(size), str(size), inpath, "--out", outpath]
     # log().debug(cmd)
     with open(os.devnull, "w") as pipe:
-        retcode = subprocess.call(
-            cmd, shell=True, stdout=pipe, stderr=subprocess.STDOUT
-        )
+        retcode = subprocess.call(cmd,
+                                  shell=True,
+                                  stdout=pipe,
+                                  stderr=subprocess.STDOUT)
 
     if retcode != 0:
         raise RuntimeError("sips exited with %d" % retcode)
@@ -282,7 +280,8 @@ def png_to_icns(png_path, icns_path):
             raise RuntimeError("iconset exited with %d" % retcode)
 
         if not os.path.exists(icns_path):  # pragma: nocover
-            raise ValueError("generated ICNS file not found: " + repr(icns_path))
+            raise ValueError("generated ICNS file not found: " +
+                             repr(icns_path))
     finally:
         try:
             shutil.rmtree(tempdir)
@@ -303,16 +302,25 @@ if __name__ == "__main__":  # pragma: nocover
 
     p = argparse.ArgumentParser()
     p.add_argument("-p", "--png", help="PNG image to convert to ICNS.")
-    p.add_argument(
-        "-l", "--list-sounds", help="Show available sounds.", action="store_true"
-    )
-    p.add_argument("-t", "--title", help="Notification title.", type=ustr, default="")
-    p.add_argument(
-        "-s", "--sound", type=ustr, help="Optional notification sound.", default=""
-    )
-    p.add_argument(
-        "text", type=ustr, help="Notification body text.", default="", nargs="?"
-    )
+    p.add_argument("-l",
+                   "--list-sounds",
+                   help="Show available sounds.",
+                   action="store_true")
+    p.add_argument("-t",
+                   "--title",
+                   help="Notification title.",
+                   type=ustr,
+                   default="")
+    p.add_argument("-s",
+                   "--sound",
+                   type=ustr,
+                   help="Optional notification sound.",
+                   default="")
+    p.add_argument("text",
+                   type=ustr,
+                   help="Notification body text.",
+                   default="",
+                   nargs="?")
     o = p.parse_args()
 
     # List available sounds
@@ -328,7 +336,8 @@ if __name__ == "__main__":  # pragma: nocover
             os.path.splitext(os.path.basename(o.png))[0] + ".icns",
         )
 
-        print("converting {0!r} to {1!r} ...".format(o.png, icns), file=sys.stderr)
+        print("converting {0!r} to {1!r} ...".format(o.png, icns),
+              file=sys.stderr)
 
         if os.path.exists(icns):
             raise ValueError("destination file already exists: " + icns)
