@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2014 deanishe@deanishe.net
 #
-# MIT Licence. See http://opensource.org/licenses/MIT
+# MIT License. See http://opensource.org/licenses/MIT
 #
 # Created on 2014-04-06
 #

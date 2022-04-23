@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2014 Dean Jackson <deanishe@deanishe.net>
 #
-# MIT Licence. See http://opensource.org/licenses/MIT
+# MIT License. See http://opensource.org/licenses/MIT
 #
 # Created on 2014-02-15
 #
@@ -58,7 +58,7 @@ from .workflow3 import Variables, Workflow3
 __title__ = "Alfred-Workflow"
 __version__ = open(os.path.join(os.path.dirname(__file__), "version")).read()
 __author__ = "Dean Jackson"
-__licence__ = "MIT"
+__License__ = "MIT"
 __copyright__ = "Copyright 2014-2019 Dean Jackson"
 
 __all__ = [

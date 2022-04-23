@@ -4,7 +4,7 @@
 # Copyright (c) 2014 Fabio Niephaus <fabio.niephaus@gmail.com>,
 #       Dean Jackson <deanishe@deanishe.net>
 #
-# MIT Licence. See http://opensource.org/licenses/MIT
+# MIT License. See http://opensource.org/licenses/MIT
 #
 # Created on 2014-08-16
 #

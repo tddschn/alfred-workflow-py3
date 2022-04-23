@@ -1,7 +1,7 @@
-All Python source code is under the MIT Licence.
+All Python source code is under the MIT License.
 
 The documentation, in particular the tutorials, are under the
-Creative Commons Attribution-NonCommercial (CC BY-NC) licence.
+Creative Commons Attribution-NonCommercial (CC BY-NC) License.
 
 ---------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 ---------------------------------------------------------------------
 
-Creative Commons Attribution-NonCommercial (CC BY-NC) licence
+Creative Commons Attribution-NonCommercial (CC BY-NC) License
 
 https://creativecommons.org/licenses/by-nc/4.0/legalcode
 

@@ -1,18 +1,18 @@
 
-.. _licence:
+.. _License:
 
-Licence
+License
 =======
 
-Alfred-Workflow is released under the :ref:`mit-licence`.
+Alfred-Workflow is released under the :ref:`mit-License`.
 
 
-.. _mit-licence:
+.. _mit-License:
 
-MIT Licence
+MIT License
 ^^^^^^^^^^^
 
-.. include:: ../LICENCE.txt
+.. include:: ../License.txt
 
 
 Contributors

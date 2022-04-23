@@ -1,6 +1,6 @@
 # encoding: utf-8
 # Copyright (c) 2019 Dean Jackson <deanishe@deanishe.net>
-# MIT Licence applies http://opensource.org/licenses/MIT
+# MIT License applies http://opensource.org/licenses/MIT
 #
 # Created 2019-05-05
 """Unit tests for Keychain API."""

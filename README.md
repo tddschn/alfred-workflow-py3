@@ -241,7 +241,7 @@ The documentation is also available as a [Dash docset][dash].
 Licensing, thanks
 -----------------
 
-The code and the documentation are released under the MIT and [Creative Commons Attribution-NonCommercial][cc] licences respectively. See [LICENCE.txt](LICENCE.txt) for details.
+The code and the documentation are released under the MIT and [Creative Commons Attribution-NonCommercial][cc] Licenses respectively. See [License.txt](License.txt) for details.
 
 The documentation was generated using [Sphinx][sphinx] and a modified version of the [Alabaster][alabaster] theme by [bitprophet][bitprophet].
 
@@ -317,7 +317,7 @@ Workflows using Alfred-Workflow
 [shield-github]: https://github.com/deanishe/alfred-workflow/workflows/CI/badge.svg
 [action-github]: https://github.com/deanishe/alfred-workflow/actions?query=workflow%3ACI
 [shield-health]: https://landscape.io/github/deanishe/alfred-workflow/master/landscape.png?style=flat
-[shield-licence]: https://pypip.in/license/Alfred-Workflow/badge.svg?style=flat
+[shield-License]: https://pypip.in/license/Alfred-Workflow/badge.svg?style=flat
 [shield-status]: https://img.shields.io/pypi/status/Alfred-Workflow.svg?style=flat
 [shield-travis]: https://travis-ci.org/deanishe/alfred-workflow.svg?branch=master&style=flat
 [shield-version]: https://img.shields.io/pypi/v/Alfred-Workflow.svg?style=flat
