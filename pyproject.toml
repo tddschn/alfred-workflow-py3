@@ -13,6 +13,9 @@ classifiers = [
     "Topic :: Software Development :: Libraries",
     "Topic :: Software Development :: Libraries :: Application Frameworks",
 ]
+packages = [
+    { include = "workflow" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
