@@ -16,6 +16,12 @@ classifiers = [
 packages = [
     { include = "workflow" },
 ]
+homepage = "https://github.com/tddschn/alfred-workflow-py3"
+repository = "https://github.com/tddschn/alfred-workflow-py3"
+keywords = ["alfred", "workflow"]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/tddschn/alfred-workflow-py3/issues"
 
 [tool.poetry.dependencies]
 python = "^3.10"
