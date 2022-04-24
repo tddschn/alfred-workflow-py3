@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "alfred-workflow-tddschn"
-version = "0.1.1"
+version = "0.1.2"
 description = "Full-featured helper library for writing Alfred 2/3/4 workflows, with Python 3"
 authors = ["Xinyuan Chen <45612704+tddschn@users.noreply.github.com>"]
 license = "MIT"
