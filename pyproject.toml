@@ -16,6 +16,7 @@ classifiers = [
 packages = [
     { include = "workflow" },
 ]
+readme = "README.md"
 homepage = "https://github.com/tddschn/alfred-workflow-py3"
 repository = "https://github.com/tddschn/alfred-workflow-py3"
 keywords = ["alfred", "workflow"]
