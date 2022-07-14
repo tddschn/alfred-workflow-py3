@@ -143,10 +143,10 @@ def install_notifier():
     # Change bundle ID of installed app
     ip_path = os.path.join(app_path, "Contents/Info.plist")
     bundle_id = "{0}.{1}".format(wf().bundleid, uuid.uuid4().hex)
-    data = plistlib.readPlist(ip_path)
+    data = plistlib.load(ip_path)
     log().debug("changing bundle ID to %r", bundle_id)
     data["CFBundleIdentifier"] = bundle_id
-    plistlib.writePlist(data, ip_path)
+    plistlib.dump(data, ip_path)
 
 
 def validate_sound(sound):
