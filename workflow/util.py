@@ -13,7 +13,11 @@ import atexit
 import errno
 import fcntl
 import functools
-import json
+
+try:
+    import ujson as json
+except ImportError:
+    import json
 import os
 import signal
 import subprocess
@@ -276,8 +280,7 @@ def set_theme(theme_name):
 
     """
     appname = jxa_app_name()
-    script = JXA_SET_THEME.format(app=json.dumps(appname),
-                                  arg=json.dumps(theme_name))
+    script = JXA_SET_THEME.format(app=json.dumps(appname), arg=json.dumps(theme_name))
     run_applescript(script, lang="JavaScript")
 
 
@@ -395,8 +398,9 @@ def reload_workflow(bundleid=None):
     """
     bundleid = bundleid or os.getenv("alfred_workflow_bundleid")
     appname = jxa_app_name()
-    script = JXA_RELOAD_WORKFLOW.format(app=json.dumps(appname),
-                                        arg=json.dumps(bundleid))
+    script = JXA_RELOAD_WORKFLOW.format(
+        app=json.dumps(appname), arg=json.dumps(bundleid)
+    )
 
     run_applescript(script, lang="JavaScript")
 
@@ -422,8 +426,7 @@ def appinfo(name):
         "-onlyin",
         os.path.expanduser("~/Applications"),
         "(kMDItemContentTypeTree == com.apple.application &&"
-        '(kMDItemDisplayName == "{0}" || kMDItemFSName == "{0}.app"))'.format(
-            name),
+        '(kMDItemDisplayName == "{0}" || kMDItemFSName == "{0}.app"))'.format(name),
     ]
 
     output = run_command(cmd).strip()

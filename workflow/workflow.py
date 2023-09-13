@@ -19,7 +19,11 @@ up your Python script to best utilise the :class:`Workflow` object.
 """
 
 import binascii
-import json
+
+try:
+    import ujson as json
+except ImportError:
+    import json
 import logging
 import logging.handlers
 import os
@@ -563,8 +567,7 @@ class SerializerManager(object):
 
         """
         if name not in self._serializers:
-            raise ValueError(
-                "No such serializer registered : {0}".format(name))
+            raise ValueError("No such serializer registered : {0}".format(name))
 
         serializer = self._serializers[name]
         del self._serializers[name]
@@ -763,9 +766,9 @@ class Item(object):
         # Add modifier subtitles
         for mod in ("cmd", "ctrl", "alt", "shift", "fn"):
             if mod in self.modifier_subtitles:
-                ET.SubElement(root, "subtitle", {
-                    "mod": mod
-                }).text = self.modifier_subtitles[mod]
+                ET.SubElement(
+                    root, "subtitle", {"mod": mod}
+                ).text = self.modifier_subtitles[mod]
 
         # Add arg as element instead of attribute on <item>, as it's more
         # flexible (newlines aren't allowed in attributes)
@@ -781,9 +784,7 @@ class Item(object):
             ET.SubElement(root, "icon", attr).text = self.icon
 
         if self.largetext:
-            ET.SubElement(root, "text", {
-                "type": "largetype"
-            }).text = self.largetext
+            ET.SubElement(root, "text", {"type": "largetype"}).text = self.largetext
 
         if self.copytext:
             ET.SubElement(root, "text", {"type": "copy"}).text = self.copytext
@@ -1056,22 +1057,21 @@ class Workflow(object):
         data = {}
 
         for key in (
-                "debug",
-                "preferences",
-                "preferences_localhash",
-                "theme",
-                "theme_background",
-                "theme_subtext",
-                "version",
-                "version_build",
-                "workflow_bundleid",
-                "workflow_cache",
-                "workflow_data",
-                "workflow_name",
-                "workflow_uid",
-                "workflow_version",
+            "debug",
+            "preferences",
+            "preferences_localhash",
+            "theme",
+            "theme_background",
+            "theme_subtext",
+            "version",
+            "version_build",
+            "workflow_bundleid",
+            "workflow_cache",
+            "workflow_data",
+            "workflow_name",
+            "workflow_uid",
+            "workflow_version",
         ):
-
             value = os.getenv("alfred_" + key, "")
 
             if value:
@@ -1121,8 +1121,8 @@ class Workflow(object):
 
         """
         return bool(
-            self.alfred_env.get("debug") == 1
-            or os.environ.get("PYTEST_RUNNING"))
+            self.alfred_env.get("debug") == 1 or os.environ.get("PYTEST_RUNNING")
+        )
 
     @property
     def name(self):
@@ -1158,7 +1158,6 @@ class Workflow(object):
 
         """
         if self._version is UNSET:
-
             version = None
             # environment variable has priority
             if self.alfred_env.get("workflow_version"):
@@ -1259,8 +1258,8 @@ class Workflow(object):
         """Alfred 2's default cache directory."""
         return os.path.join(
             os.path.expanduser(
-                "~/Library/Caches/com.runningwithcrayons.Alfred-2/"
-                "Workflow Data/"),
+                "~/Library/Caches/com.runningwithcrayons.Alfred-2/" "Workflow Data/"
+            ),
             self.bundleid,
         )
 
@@ -1295,8 +1294,7 @@ class Workflow(object):
     def _default_datadir(self):
         """Alfred 2's default data directory."""
         return os.path.join(
-            os.path.expanduser(
-                "~/Library/Application Support/Alfred 2/Workflow Data/"),
+            os.path.expanduser("~/Library/Application Support/Alfred 2/Workflow Data/"),
             self.bundleid,
         )
 
@@ -1319,7 +1317,6 @@ class Workflow(object):
 
             # climb the directory tree until we find `info.plist`
             for dirpath in candidates:
-
                 # Ensure directory path is Unicode
                 dirpath = self.decode(dirpath)
 
@@ -1415,17 +1412,14 @@ class Workflow(object):
         # Exclude from coverage, as pytest will have configured the
         # root logger already
         if not len(logger.handlers):  # pragma: no cover
-
             fmt = logging.Formatter(
-                "%(asctime)s %(filename)s:%(lineno)s"
-                " %(levelname)-8s %(message)s",
+                "%(asctime)s %(filename)s:%(lineno)s" " %(levelname)-8s %(message)s",
                 datefmt="%H:%M:%S",
             )
 
-            logfile = logging.handlers.RotatingFileHandler(self.logfile,
-                                                           maxBytes=1024 *
-                                                           1024,
-                                                           backupCount=1)
+            logfile = logging.handlers.RotatingFileHandler(
+                self.logfile, maxBytes=1024 * 1024, backupCount=1
+            )
             logfile.setFormatter(fmt)
             logger.addHandler(logfile)
 
@@ -1482,8 +1476,7 @@ class Workflow(object):
         """
         if not self._settings:
             self.logger.debug("reading settings from %s", self.settings_path)
-            self._settings = Settings(self.settings_path,
-                                      self._default_settings)
+            self._settings = Settings(self.settings_path, self._default_settings)
         return self._settings
 
     @property
@@ -1523,7 +1516,8 @@ class Workflow(object):
         if manager.serializer(serializer_name) is None:
             raise ValueError(
                 "Unknown serializer : `{0}`. Register your serializer "
-                "with `manager` first.".format(serializer_name))
+                "with `manager` first.".format(serializer_name)
+            )
 
         self.logger.debug("default cache serializer: %s", serializer_name)
 
@@ -1565,7 +1559,8 @@ class Workflow(object):
         if manager.serializer(serializer_name) is None:
             raise ValueError(
                 "Unknown serializer : `{0}`. Register your serializer "
-                "with `manager` first.".format(serializer_name))
+                "with `manager` first.".format(serializer_name)
+            )
 
         self.logger.debug("default data serializer: %s", serializer_name)
 
@@ -1596,7 +1591,8 @@ class Workflow(object):
             raise ValueError(
                 "Unknown serializer `{0}`. Register a corresponding "
                 "serializer with `manager.register()` "
-                "to load this data.".format(serializer_name))
+                "to load this data.".format(serializer_name)
+            )
 
         self.logger.debug("data `%s` stored as `%s`", name, serializer_name)
 
@@ -1635,6 +1631,7 @@ class Workflow(object):
         :returns: data in datastore or ``None``
 
         """
+
         # Ensure deletion is not interrupted by SIGTERM
         @uninterruptible
         def delete_paths(paths):
@@ -1655,16 +1652,18 @@ class Workflow(object):
 
         if data_path == self.settings_path:
             raise ValueError(
-                "Cannot save data to" +
-                "`{0}` with format `{1}`. ".format(name, serializer_name) +
-                "This would overwrite Alfred-Workflow's settings file.")
+                "Cannot save data to"
+                + "`{0}` with format `{1}`. ".format(name, serializer_name)
+                + "This would overwrite Alfred-Workflow's settings file."
+            )
 
         serializer = manager.serializer(serializer_name)
 
         if serializer is None:
             raise ValueError(
                 "Invalid serializer `{0}`. Register your serializer with "
-                "`manager.register()` first.".format(serializer_name))
+                "`manager.register()` first.".format(serializer_name)
+            )
 
         if data is None:  # Delete cached data
             delete_paths((metadata_path, data_path))
@@ -1709,7 +1708,6 @@ class Workflow(object):
         age = self.cached_data_age(name)
 
         if (age < max_age or max_age == 0) and os.path.exists(cache_path):
-
             with open(cache_path, "rb") as file_obj:
                 self.logger.debug("loading cached data: %s", cache_path)
                 return serializer.load(file_obj)
@@ -1901,8 +1899,9 @@ class Workflow(object):
             return items
 
         # Use user override if there is one
-        fold_diacritics = self.settings.get("__workflow_diacritic_folding",
-                                            fold_diacritics)
+        fold_diacritics = self.settings.get(
+            "__workflow_diacritic_folding", fold_diacritics
+        )
 
         results = []
 
@@ -1916,8 +1915,7 @@ class Workflow(object):
             for word in words:
                 if word == "":
                     continue
-                s, rule = self._filter_item(value, word, match_on,
-                                            fold_diacritics)
+                s, rule = self._filter_item(value, word, match_on, fold_diacritics)
 
                 if not s:  # Skip items that don't match part of the query
                     skip = True
@@ -1930,8 +1928,9 @@ class Workflow(object):
                 # use "reversed" `score` (i.e. highest becomes lowest) and
                 # `value` as sort key. This means items with the same score
                 # will be sorted in alphabetical not reverse alphabetical order
-                results.append(((100.0 / score, value.lower(), score),
-                                (item, score, rule)))
+                results.append(
+                    ((100.0 / score, value.lower(), score), (item, score, rule))
+                )
 
         # sort on keys, then discard the keys
         results.sort(reverse=ascending)
@@ -1966,7 +1965,6 @@ class Workflow(object):
         # pre-filter any items that do not contain all characters
         # of ``query`` to save on running several more expensive tests
         if not set(query) <= set(value.lower()):
-
             return (0, None)
 
         # item starts with query
@@ -1986,8 +1984,11 @@ class Workflow(object):
 
         # split the item into "atoms", i.e. words separated by
         # spaces or other non-word characters
-        if (match_on & MATCH_ATOM or match_on & MATCH_INITIALS_CONTAIN
-                or match_on & MATCH_INITIALS_STARTSWITH):
+        if (
+            match_on & MATCH_ATOM
+            or match_on & MATCH_INITIALS_CONTAIN
+            or match_on & MATCH_INITIALS_STARTSWITH
+        ):
             atoms = [s.lower() for s in split_on_delimiters(value)]
             # print('atoms : %s  -->  %s' % (value, atoms))
             # initials of the atoms
@@ -2030,8 +2031,9 @@ class Workflow(object):
             search = self._search_for_query(query)
             match = search(value)
             if match:
-                score = 100.0 / ((1 + match.start()) *
-                                 (match.end() - match.start() + 1))
+                score = 100.0 / (
+                    (1 + match.start()) * (match.end() - match.start() + 1)
+                )
 
                 return (score, MATCH_ALLCHARS)
 
@@ -2082,8 +2084,9 @@ class Workflow(object):
         # to catch any errors and display an error message in Alfred
         try:
             if self.version:
-                self.logger.debug("---------- %s (%s) ----------", self.name,
-                                  self.version)
+                self.logger.debug(
+                    "---------- %s (%s) ----------", self.name, self.version
+                )
             else:
                 self.logger.debug("---------- %s ----------", self.name)
 
@@ -2117,15 +2120,16 @@ class Workflow(object):
                         name = self._bundleid
                     else:  # pragma: no cover
                         name = os.path.dirname(__file__)
-                    self.add_item("Error in workflow '%s'" % name,
-                                  str(err),
-                                  icon=ICON_ERROR)
+                    self.add_item(
+                        "Error in workflow '%s'" % name, str(err), icon=ICON_ERROR
+                    )
                     self.send_feedback()
             return 1
 
         finally:
-            self.logger.debug("---------- finished in %0.3fs ----------",
-                              time.time() - start)
+            self.logger.debug(
+                "---------- finished in %0.3fs ----------", time.time() - start
+            )
 
         return 0
 
@@ -2263,7 +2267,6 @@ class Workflow(object):
 
         """
         if self._last_version_run is UNSET:
-
             version = self.settings.get("__workflow_last_version")
             if version:
                 from .update import Version
@@ -2289,8 +2292,7 @@ class Workflow(object):
         """
         if not version:
             if not self.version:
-                self.logger.warning(
-                    "Can't save last version: workflow has no version")
+                self.logger.warning("Can't save last version: workflow has no version")
                 return False
 
             version = self.version
@@ -2361,8 +2363,7 @@ class Workflow(object):
 
         """
         key = "__workflow_latest_version"
-        frequency = self._update_settings.get("frequency",
-                                              DEFAULT_UPDATE_FREQUENCY)
+        frequency = self._update_settings.get("frequency", DEFAULT_UPDATE_FREQUENCY)
 
         if not force and not self.settings.get("__workflow_autoupdate", True):
             self.logger.debug("Auto update turned off by user")
@@ -2377,8 +2378,7 @@ class Workflow(object):
             from .background import run_in_background
 
             # update.py is adjacent to this file
-            update_script = os.path.join(os.path.dirname(__file__),
-                                         "update.py")
+            update_script = os.path.join(os.path.dirname(__file__), "update.py")
 
             cmd = [sys.executable, update_script, "check", repo, version]
             if self.prereleases:
@@ -2454,8 +2454,9 @@ class Workflow(object):
             service = self.bundleid
 
         try:
-            self._call_security("add-generic-password", service, account, "-w",
-                                password)
+            self._call_security(
+                "add-generic-password", service, account, "-w", password
+            )
             self.logger.debug("saved password : %s:%s", service, account)
 
         except PasswordExists:
@@ -2467,8 +2468,9 @@ class Workflow(object):
 
             else:
                 self.delete_password(account, service)
-                self._call_security("add-generic-password", service, account,
-                                    "-w", password)
+                self._call_security(
+                    "add-generic-password", service, account, "-w", password
+                )
                 self.logger.debug("save_password : %s:%s", service, account)
 
     def get_password(self, account, service=None):
@@ -2489,15 +2491,14 @@ class Workflow(object):
         if not service:
             service = self.bundleid
 
-        output = self._call_security("find-generic-password", service, account,
-                                     "-g")
+        output = self._call_security("find-generic-password", service, account, "-g")
 
         # Parsing of `security` output is adapted from python-keyring
         # by Jason R. Coombs
         # https://pypi.python.org/pypi/keyring
         m = re.search(
-            r'password:\s*(?:0x(?P<hex>[0-9A-F]+)\s*)?(?:"(?P<pw>.*)")?',
-            output)
+            r'password:\s*(?:0x(?P<hex>[0-9A-F]+)\s*)?(?:"(?P<pw>.*)")?', output
+        )
 
         if m:
             groups = m.groupdict()
@@ -2540,30 +2541,37 @@ class Workflow(object):
         # TODO: refactor & simplify
         # Wrap callback and message with callable
         def callback(func, msg):
-
             def wrapper():
                 func()
                 return msg
 
             return wrapper
 
-        self.magic_arguments["delcache"] = callback(self.clear_cache,
-                                                    "Deleted workflow cache")
-        self.magic_arguments["deldata"] = callback(self.clear_data,
-                                                   "Deleted workflow data")
+        self.magic_arguments["delcache"] = callback(
+            self.clear_cache, "Deleted workflow cache"
+        )
+        self.magic_arguments["deldata"] = callback(
+            self.clear_data, "Deleted workflow data"
+        )
         self.magic_arguments["delsettings"] = callback(
-            self.clear_settings, "Deleted workflow settings")
+            self.clear_settings, "Deleted workflow settings"
+        )
         self.magic_arguments["reset"] = callback(self.reset, "Reset workflow")
         self.magic_arguments["openlog"] = callback(
-            self.open_log, "Opening workflow log file")
+            self.open_log, "Opening workflow log file"
+        )
         self.magic_arguments["opencache"] = callback(
-            self.open_cachedir, "Opening workflow cache directory")
+            self.open_cachedir, "Opening workflow cache directory"
+        )
         self.magic_arguments["opendata"] = callback(
-            self.open_datadir, "Opening workflow data directory")
+            self.open_datadir, "Opening workflow data directory"
+        )
         self.magic_arguments["openworkflow"] = callback(
-            self.open_workflowdir, "Opening workflow directory")
+            self.open_workflowdir, "Opening workflow directory"
+        )
         self.magic_arguments["openterm"] = callback(
-            self.open_terminal, "Opening workflow root directory in Terminal")
+            self.open_terminal, "Opening workflow root directory in Terminal"
+        )
 
         # Diacritic folding
         def fold_on():
@@ -2855,9 +2863,7 @@ class Workflow(object):
 
         """
         cmd = ["security", action, "-s", service, "-a", account] + list(args)
-        p = subprocess.Popen(cmd,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT)
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         stdout, _ = p.communicate()
         if p.returncode == 44:  # password does not exist
             raise PasswordNotFound()
