@@ -20,4 +20,7 @@ major:
 push:
 	git push origin master
 
+lint:
+	ruff check . --fix
+
 .PHONE: *
